@@ -1,20 +1,20 @@
-import {Injectable, NgZone} from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
-import {cancelScroll, scroll} from './gridsterScroll.service';
-import {GridsterResizeEventType} from './gridsterResizeEventType.interface';
-import {GridsterPush} from './gridsterPush.service';
-import {GridsterUtils} from './gridsterUtils.service';
-import {GridsterPushResize} from './gridsterPushResize.service';
-import {GridsterItemComponentInterface} from './gridsterItemComponent.interface';
-import {GridsterComponentInterface} from './gridster.interface';
+import { cancelScroll, scroll } from './gridsterScroll.service';
+import { GridsterResizeEventType } from './gridsterResizeEventType.interface';
+import { GridsterPush } from './gridsterPush.service';
+import { GridsterUtils } from './gridsterUtils.service';
+import { GridsterPushResize } from './gridsterPushResize.service';
+import { GridsterItemComponentInterface } from './gridsterItemComponent.interface';
+import { GridsterComponentInterface } from './gridster.interface';
 
 @Injectable()
 export class GridsterResizable {
   gridsterItem: GridsterItemComponentInterface;
   gridster: GridsterComponentInterface;
   lastMouse: {
-    clientX: number,
-    clientY: number
+    clientX: number;
+    clientY: number;
   };
   itemBackup: Array<number>;
   resizeEventScrollType: GridsterResizeEventType;
@@ -48,15 +48,19 @@ export class GridsterResizable {
   height: number;
   newPosition: number;
 
-  constructor(gridsterItem: GridsterItemComponentInterface, gridster: GridsterComponentInterface, private zone: NgZone) {
+  constructor(
+    gridsterItem: GridsterItemComponentInterface,
+    gridster: GridsterComponentInterface,
+    private zone: NgZone
+  ) {
     this.gridsterItem = gridsterItem;
     this.gridster = gridster;
     this.lastMouse = {
       clientX: 0,
-      clientY: 0
+      clientY: 0,
     };
     this.itemBackup = [0, 0, 0, 0];
-    this.resizeEventScrollType = {w: false, e: false, n: false, s: false};
+    this.resizeEventScrollType = { w: false, e: false, n: false, s: false };
   }
 
   destroy(): void {
@@ -110,10 +114,12 @@ export class GridsterResizable {
     this.diffRight = e.clientX + this.offsetLeft - this.right;
     this.diffTop = e.clientY + this.offsetTop - this.top;
     this.diffBottom = e.clientY + this.offsetTop - this.bottom;
-    this.minHeight = this.gridster.positionYToPixels(this.gridsterItem.$item.minItemRows || this.gridster.$options.minItemRows)
-      - this.margin;
-    this.minWidth = this.gridster.positionXToPixels(this.gridsterItem.$item.minItemCols || this.gridster.$options.minItemCols)
-      - this.margin;
+    this.minHeight =
+      this.gridster.positionYToPixels(this.gridsterItem.$item.minItemRows || this.gridster.$options.minItemRows) -
+      this.margin;
+    this.minWidth =
+      this.gridster.positionXToPixels(this.gridsterItem.$item.minItemCols || this.gridster.$options.minItemCols) -
+      this.margin;
     this.gridster.movingItem = this.gridsterItem.$item;
     this.gridster.previewStyle();
     this.push = new GridsterPush(this.gridsterItem);
@@ -121,31 +127,79 @@ export class GridsterResizable {
     this.gridster.dragInProgress = true;
     this.gridster.updateGrid();
 
-    if (e.target.hasAttribute('class') && e.target.getAttribute('class').split(' ').indexOf('handle-n') > -1) {
+    if (
+      e.target.hasAttribute('class') &&
+      e.target
+        .getAttribute('class')
+        .split(' ')
+        .indexOf('handle-n') > -1
+    ) {
       this.resizeEventScrollType.n = true;
       this.directionFunction = this.handleN;
-    } else if (e.target.hasAttribute('class') && e.target.getAttribute('class').split(' ').indexOf('handle-w') > -1) {
+    } else if (
+      e.target.hasAttribute('class') &&
+      e.target
+        .getAttribute('class')
+        .split(' ')
+        .indexOf('handle-w') > -1
+    ) {
       this.resizeEventScrollType.w = true;
       this.directionFunction = this.handleW;
-    } else if (e.target.hasAttribute('class') && e.target.getAttribute('class').split(' ').indexOf('handle-s') > -1) {
+    } else if (
+      e.target.hasAttribute('class') &&
+      e.target
+        .getAttribute('class')
+        .split(' ')
+        .indexOf('handle-s') > -1
+    ) {
       this.resizeEventScrollType.s = true;
       this.directionFunction = this.handleS;
-    } else if (e.target.hasAttribute('class') && e.target.getAttribute('class').split(' ').indexOf('handle-e') > -1) {
+    } else if (
+      e.target.hasAttribute('class') &&
+      e.target
+        .getAttribute('class')
+        .split(' ')
+        .indexOf('handle-e') > -1
+    ) {
       this.resizeEventScrollType.e = true;
       this.directionFunction = this.handleE;
-    } else if (e.target.hasAttribute('class') && e.target.getAttribute('class').split(' ').indexOf('handle-nw') > -1) {
+    } else if (
+      e.target.hasAttribute('class') &&
+      e.target
+        .getAttribute('class')
+        .split(' ')
+        .indexOf('handle-nw') > -1
+    ) {
       this.resizeEventScrollType.n = true;
       this.resizeEventScrollType.w = true;
       this.directionFunction = this.handleNW;
-    } else if (e.target.hasAttribute('class') && e.target.getAttribute('class').split(' ').indexOf('handle-ne') > -1) {
+    } else if (
+      e.target.hasAttribute('class') &&
+      e.target
+        .getAttribute('class')
+        .split(' ')
+        .indexOf('handle-ne') > -1
+    ) {
       this.resizeEventScrollType.n = true;
       this.resizeEventScrollType.e = true;
       this.directionFunction = this.handleNE;
-    } else if (e.target.hasAttribute('class') && e.target.getAttribute('class').split(' ').indexOf('handle-sw') > -1) {
+    } else if (
+      e.target.hasAttribute('class') &&
+      e.target
+        .getAttribute('class')
+        .split(' ')
+        .indexOf('handle-sw') > -1
+    ) {
       this.resizeEventScrollType.s = true;
       this.resizeEventScrollType.w = true;
       this.directionFunction = this.handleSW;
-    } else if (e.target.hasAttribute('class') && e.target.getAttribute('class').split(' ').indexOf('handle-se') > -1) {
+    } else if (
+      e.target.hasAttribute('class') &&
+      e.target
+        .getAttribute('class')
+        .split(' ')
+        .indexOf('handle-se') > -1
+    ) {
       this.resizeEventScrollType.s = true;
       this.resizeEventScrollType.e = true;
       this.directionFunction = this.handleSE;
@@ -158,8 +212,18 @@ export class GridsterResizable {
     GridsterUtils.checkTouchEvent(e);
     this.offsetTop = this.gridster.el.scrollTop - this.gridster.el.offsetTop;
     this.offsetLeft = this.gridster.el.scrollLeft - this.gridster.el.offsetLeft;
-    scroll(this.gridster, this.left, this.top, this.width, this.height, e, this.lastMouse, this.directionFunction.bind(this), true,
-      this.resizeEventScrollType);
+    scroll(
+      this.gridster,
+      this.left,
+      this.top,
+      this.width,
+      this.height,
+      e,
+      this.lastMouse,
+      this.directionFunction.bind(this),
+      true,
+      this.resizeEventScrollType
+    );
     this.directionFunction(e);
 
     this.lastMouse.clientX = e.clientX;
@@ -183,8 +247,10 @@ export class GridsterResizable {
     this.gridster.dragInProgress = false;
     this.gridster.updateGrid();
     if (this.gridster.options.resizable && this.gridster.options.resizable.stop) {
-      Promise.resolve(this.gridster.options.resizable.stop(this.gridsterItem.item, this.gridsterItem, e))
-        .then(this.makeResize.bind(this), this.cancelResize.bind(this));
+      Promise.resolve(this.gridster.options.resizable.stop(this.gridsterItem.item, this.gridsterItem, e)).then(
+        this.makeResize.bind(this),
+        this.cancelResize.bind(this)
+      );
     } else {
       this.makeResize();
     }
@@ -291,7 +357,7 @@ export class GridsterResizable {
     }
     this.bottom = this.top + this.height;
     this.newPosition = this.gridster.pixelsToPositionY(this.bottom, Math.ceil);
-    if ((this.gridsterItem.$item.y + this.gridsterItem.$item.rows) !== this.newPosition) {
+    if (this.gridsterItem.$item.y + this.gridsterItem.$item.rows !== this.newPosition) {
       this.itemBackup[3] = this.gridsterItem.$item.rows;
       this.gridsterItem.$item.rows = this.newPosition - this.gridsterItem.$item.y;
       this.pushResize.pushItems(this.pushResize.fromNorth);
@@ -316,7 +382,7 @@ export class GridsterResizable {
     }
     this.right = this.left + this.width;
     this.newPosition = this.gridster.pixelsToPositionX(this.right, Math.ceil);
-    if ((this.gridsterItem.$item.x + this.gridsterItem.$item.cols) !== this.newPosition) {
+    if (this.gridsterItem.$item.x + this.gridsterItem.$item.cols !== this.newPosition) {
       this.itemBackup[2] = this.gridsterItem.$item.cols;
       this.gridsterItem.$item.cols = this.newPosition - this.gridsterItem.$item.x;
       this.pushResize.pushItems(this.pushResize.fromWest);

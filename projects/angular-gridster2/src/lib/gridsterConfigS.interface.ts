@@ -1,6 +1,6 @@
-import {compactTypes, displayGrids, gridTypes} from './gridsterConfig.interface';
-import {GridsterItem} from './gridsterItem.interface';
-import {GridsterComponentInterface} from './gridster.interface';
+import { compactTypes, displayGrids, gridTypes } from './gridsterConfig.interface';
+import { GridsterItem } from './gridsterItem.interface';
+import { GridsterComponentInterface } from './gridster.interface';
 
 export interface GridsterConfigS {
   gridType: gridTypes;
@@ -53,11 +53,11 @@ export interface GridsterConfigS {
   emptyCellDragMaxRows: number;
   ignoreMarginInRow: boolean;
   api: {
-    resize: () => void,
-    optionsChanged: () => void,
-    getNextPossiblePosition: (newItem: GridsterItem) => boolean,
-    getFirstPossiblePosition: (item: GridsterItem) => GridsterItem,
-    getLastPossiblePosition: (item: GridsterItem) => GridsterItem,
+    resize: () => void;
+    optionsChanged: () => void;
+    getNextPossiblePosition: (newItem: GridsterItem) => boolean;
+    getFirstPossiblePosition: (item: GridsterItem) => GridsterItem;
+    getLastPossiblePosition: (item: GridsterItem) => GridsterItem;
   };
 
   [propName: string]: any;
@@ -80,14 +80,14 @@ export interface Draggable extends DragBase {
 
 export interface Resizable extends DragBase {
   handles: {
-    s: boolean,
-    e: boolean,
-    n: boolean,
-    w: boolean,
-    se: boolean,
-    ne: boolean,
-    sw: boolean,
-    nw: boolean
+    s: boolean;
+    e: boolean;
+    n: boolean;
+    w: boolean;
+    se: boolean;
+    ne: boolean;
+    sw: boolean;
+    nw: boolean;
   };
 }
 

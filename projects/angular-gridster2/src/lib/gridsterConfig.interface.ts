@@ -1,11 +1,11 @@
-import {GridsterItem} from './gridsterItem.interface';
-import {GridsterItemComponentInterface} from './gridsterItemComponent.interface';
-import {GridsterComponentInterface} from './gridster.interface';
+import { GridsterItem } from './gridsterItem.interface';
+import { GridsterItemComponentInterface } from './gridsterItemComponent.interface';
+import { GridsterComponentInterface } from './gridster.interface';
 
 export type gridTypes = 'fit' | 'scrollVertical' | 'scrollHorizontal' | 'fixed' | 'verticalFixed' | 'horizontalFixed';
 export type displayGrids = 'always' | 'onDrag&Resize' | 'none';
 export type compactTypes =
-  'none'
+  | 'none'
   | 'compactUp'
   | 'compactLeft'
   | 'compactUp&Left'
@@ -20,13 +20,13 @@ export enum GridType {
   ScrollHorizontal = 'scrollHorizontal',
   Fixed = 'fixed',
   VerticalFixed = 'verticalFixed',
-  HorizontalFixed = 'horizontalFixed'
+  HorizontalFixed = 'horizontalFixed',
 }
 
 export enum DisplayGrid {
   Always = 'always',
   OnDragAndResize = 'onDrag&Resize',
-  None = 'none'
+  None = 'none',
 }
 
 export enum CompactType {
@@ -103,11 +103,11 @@ export interface GridsterConfig {
   emptyCellDragMaxRows?: number;
   ignoreMarginInRow?: boolean;
   api?: {
-    resize?: () => void,
-    optionsChanged?: () => void,
-    getNextPossiblePosition?: (newItem: GridsterItem) => boolean,
-    getFirstPossiblePosition?: (item: GridsterItem) => GridsterItem,
-    getLastPossiblePosition?: (item: GridsterItem) => GridsterItem,
+    resize?: () => void;
+    optionsChanged?: () => void;
+    getNextPossiblePosition?: (newItem: GridsterItem) => boolean;
+    getFirstPossiblePosition?: (item: GridsterItem) => GridsterItem;
+    getLastPossiblePosition?: (item: GridsterItem) => GridsterItem;
   };
 
   [propName: string]: any;
@@ -130,14 +130,14 @@ export interface Draggable extends DragBase {
 
 export interface Resizable extends DragBase {
   handles?: {
-    s: boolean,
-    e: boolean,
-    n: boolean,
-    w: boolean,
-    se: boolean,
-    ne: boolean,
-    sw: boolean,
-    nw: boolean
+    s: boolean;
+    e: boolean;
+    n: boolean;
+    w: boolean;
+    se: boolean;
+    ne: boolean;
+    sw: boolean;
+    nw: boolean;
   };
 }
 

@@ -1,12 +1,19 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import {CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridsterItemComponentInterface, GridType} from 'angular-gridster2';
+import {
+  CompactType,
+  DisplayGrid,
+  GridsterConfig,
+  GridsterItem,
+  GridsterItemComponentInterface,
+  GridType,
+} from 'angular-gridster2';
 
 @Component({
   selector: 'app-items',
   templateUrl: './items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class ItemsComponent implements OnInit {
   options: GridsterConfig;
@@ -23,10 +30,10 @@ export class ItemsComponent implements OnInit {
       compactType: CompactType.None,
       pushItems: true,
       draggable: {
-        enabled: true
+        enabled: true,
       },
       resizable: {
-        enabled: true
+        enabled: true,
       },
       minCols: 1,
       maxCols: 100,
@@ -39,7 +46,7 @@ export class ItemsComponent implements OnInit {
       maxItemArea: 2500,
       minItemArea: 1,
       defaultItemCols: 1,
-      defaultItemRows: 1
+      defaultItemRows: 1,
     };
 
     this.dashboard = [
@@ -57,12 +64,12 @@ export class ItemsComponent implements OnInit {
         maxItemArea: 2500,
         dragEnabled: true,
         resizeEnabled: true,
-        compactEnabled: true
+        compactEnabled: true,
       },
-      {cols: 2, rows: 2, y: 0, x: 2},
-      {cols: 1, rows: 1, y: 0, x: 4},
-      {cols: 3, rows: 2, y: 1, x: 4},
-      {cols: 1, rows: 1, y: 2, x: 1}
+      { cols: 2, rows: 2, y: 0, x: 2 },
+      { cols: 1, rows: 1, y: 0, x: 4 },
+      { cols: 3, rows: 2, y: 1, x: 4 },
+      { cols: 1, rows: 1, y: 2, x: 1 },
     ];
   }
 
@@ -79,6 +86,6 @@ export class ItemsComponent implements OnInit {
   }
 
   addItem() {
-    this.dashboard.push({x: 0, y: 0, cols: 1, rows: 1});
+    this.dashboard.push({ x: 0, y: 0, cols: 1, rows: 1 });
   }
 }

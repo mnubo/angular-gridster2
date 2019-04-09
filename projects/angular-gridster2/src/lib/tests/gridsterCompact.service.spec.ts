@@ -1,26 +1,25 @@
-import {GridsterCompact} from '../gridsterCompact.service';
+import { GridsterCompact } from '../gridsterCompact.service';
 
 describe('gridsterCompact service', () => {
   let compactType = 'none';
   let collision: boolean;
 
   class MockGridsterComponent {
-
     $options: any = this.getCompactType();
-    grid: any = [{$item: {compactEnabled: false}}, {$item: {compactEnabled: true}}];
+    grid: any = [{ $item: { compactEnabled: false } }, { $item: { compactEnabled: true } }];
 
     getCompactType() {
       switch (compactType) {
         case 'compactUp':
-          return {compactType: 'compactUp'};
+          return { compactType: 'compactUp' };
         case 'compactLeft':
-          return {compactType: 'compactLeft'};
+          return { compactType: 'compactLeft' };
         case 'compactUp&Left':
-          return {compactType: 'compactUp&Left'};
+          return { compactType: 'compactUp&Left' };
         case 'compactLeft&Up':
-          return {compactType: 'compactLeft&Up'};
+          return { compactType: 'compactLeft&Up' };
         default:
-          return {compactType: 'none'};
+          return { compactType: 'none' };
       }
     }
 
@@ -83,7 +82,7 @@ describe('gridsterCompact service', () => {
 
   it('should check moveUpTillCollision when checkCollision returns true', () => {
     collision = true;
-    const itemComponent = {y: 0, x: 0};
+    const itemComponent = { y: 0, x: 0 };
     const gridster: any = new MockGridsterComponent();
     gridsterCompact = new GridsterCompact(gridster);
     expect(gridsterCompact.moveUpTillCollision(itemComponent)).toBe(false);
@@ -91,7 +90,7 @@ describe('gridsterCompact service', () => {
 
   it('should check moveLeftTillCollision when checkCollision returns true', () => {
     collision = true;
-    const itemComponent = {y: 0, x: 0};
+    const itemComponent = { y: 0, x: 0 };
     const gridster: any = new MockGridsterComponent();
     gridsterCompact = new GridsterCompact(gridster);
     expect(gridsterCompact.moveLeftTillCollision(itemComponent)).toBe(false);

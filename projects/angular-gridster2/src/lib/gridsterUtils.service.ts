@@ -1,10 +1,9 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {GridsterComponentInterface} from './gridster.interface';
+import { GridsterComponentInterface } from './gridster.interface';
 
 @Injectable()
 export class GridsterUtils {
-
   static merge(obj1: any, obj2: any, properties: any) {
     for (const p in obj2) {
       if (obj2[p] !== void 0 && properties.hasOwnProperty(p)) {
@@ -21,9 +20,10 @@ export class GridsterUtils {
 
   static debounce(func: Function, wait: number): () => void {
     let timeout: any;
-    return function () {
-      const context = this, args = arguments;
-      const later = function () {
+    return function() {
+      const context = this,
+        args = arguments;
+      const later = function() {
         timeout = null;
         func.apply(context, args);
       };
@@ -58,22 +58,30 @@ export class GridsterUtils {
   }
 
   static checkContentClassForEmptyCellClickEvent(gridster: GridsterComponentInterface, e: any): boolean {
-    return GridsterUtils.checkContentClass(e.target, e.currentTarget, gridster.$options.draggable.ignoreContentClass)
-      || GridsterUtils.checkContentClass(e.target, e.currentTarget, gridster.$options.draggable.dragHandleClass);
+    return (
+      GridsterUtils.checkContentClass(e.target, e.currentTarget, gridster.$options.draggable.ignoreContentClass) ||
+      GridsterUtils.checkContentClass(e.target, e.currentTarget, gridster.$options.draggable.dragHandleClass)
+    );
   }
 
   static checkContentClass(target: any, current: any, contentClass: string): boolean {
     if (!target || target === current) {
       return false;
     }
-    if (target.hasAttribute('class') && target.getAttribute('class').split(' ').indexOf(contentClass) > -1) {
+    if (
+      target.hasAttribute('class') &&
+      target
+        .getAttribute('class')
+        .split(' ')
+        .indexOf(contentClass) > -1
+    ) {
       return true;
     } else {
       return GridsterUtils.checkContentClass(target.parentNode, current, contentClass);
     }
   }
 
-  static compareItems(a: { x: number, y: number }, b: { x: number, y: number }): number {
+  static compareItems(a: { x: number; y: number }, b: { x: number; y: number }): number {
     if (a.y > b.y) {
       return -1;
     } else if (a.y < b.y) {

@@ -1,6 +1,10 @@
 <div class="options">
-  <a mat-raised-button href="https://github.com/tiberiuzuld/angular-gridster2/tree/master/src/app/sections/push"
-     target="_blank" class="source-code-button">
+  <a
+    mat-raised-button
+    href="https://github.com/tiberiuzuld/angular-gridster2/tree/master/src/app/sections/push"
+    target="_blank"
+    class="source-code-button"
+  >
     <mat-icon>open_in_new</mat-icon>
     Source
   </a>
@@ -16,20 +20,32 @@
   <mat-checkbox [(ngModel)]="options.disablePushOnResize" (ngModelChange)="changedOptions()">
     Disable Push On Resize
   </mat-checkbox>
-  <mat-checkbox [(ngModel)]="options.pushDirections.north" *ngIf="options.pushDirections"
-                (ngModelChange)="changedOptions()">
+  <mat-checkbox
+    [(ngModel)]="options.pushDirections.north"
+    *ngIf="options.pushDirections"
+    (ngModelChange)="changedOptions()"
+  >
     Push North
   </mat-checkbox>
-  <mat-checkbox [(ngModel)]="options.pushDirections.east" *ngIf="options.pushDirections"
-                (ngModelChange)="changedOptions()">
+  <mat-checkbox
+    [(ngModel)]="options.pushDirections.east"
+    *ngIf="options.pushDirections"
+    (ngModelChange)="changedOptions()"
+  >
     Push East
   </mat-checkbox>
-  <mat-checkbox [(ngModel)]="options.pushDirections.south" *ngIf="options.pushDirections"
-                (ngModelChange)="changedOptions()">
+  <mat-checkbox
+    [(ngModel)]="options.pushDirections.south"
+    *ngIf="options.pushDirections"
+    (ngModelChange)="changedOptions()"
+  >
     Push South
   </mat-checkbox>
-  <mat-checkbox [(ngModel)]="options.pushDirections.west" *ngIf="options.pushDirections"
-                (ngModelChange)="changedOptions()">
+  <mat-checkbox
+    [(ngModel)]="options.pushDirections.west"
+    *ngIf="options.pushDirections"
+    (ngModelChange)="changedOptions()"
+  >
     Push West
   </mat-checkbox>
   <mat-checkbox [(ngModel)]="options.pushResizeItems" (ngModelChange)="changedOptions()">
@@ -40,12 +56,10 @@
   </button>
 </div>
 
-
 <gridster [options]="options">
   <gridster-item [item]="item" *ngFor="let item of dashboard">
     <div class="button-holder">
-      <button mat-mini-fab (mousedown)="removeItem($event, item)"
-              (touchstart)="removeItem($event, item)">
+      <button mat-mini-fab (mousedown)="removeItem($event, item)" (touchstart)="removeItem($event, item)">
         <mat-icon>delete</mat-icon>
       </button>
     </div>

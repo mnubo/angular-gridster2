@@ -1,12 +1,12 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import {DisplayGrid, GridsterConfig, GridsterItem, GridType} from 'angular-gridster2';
+import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 
 @Component({
   selector: 'app-swap',
   templateUrl: './swap.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SwapComponent implements OnInit {
   options: GridsterConfig;
@@ -19,25 +19,25 @@ export class SwapComponent implements OnInit {
       pushItems: false,
       swap: true,
       draggable: {
-        enabled: true
+        enabled: true,
       },
       resizable: {
-        enabled: true
-      }
+        enabled: true,
+      },
     };
 
     this.dashboard = [
-      {cols: 2, rows: 1, y: 0, x: 0},
-      {cols: 2, rows: 2, y: 0, x: 2},
-      {cols: 1, rows: 1, y: 0, x: 4},
-      {cols: 3, rows: 2, y: 1, x: 4},
-      {cols: 1, rows: 1, y: 4, x: 5},
-      {cols: 1, rows: 1, y: 2, x: 1},
-      {cols: 2, rows: 2, y: 5, x: 5},
-      {cols: 2, rows: 2, y: 3, x: 2},
-      {cols: 2, rows: 1, y: 2, x: 2},
-      {cols: 1, rows: 1, y: 3, x: 4},
-      {cols: 1, rows: 1, y: 0, x: 6}
+      { cols: 2, rows: 1, y: 0, x: 0 },
+      { cols: 2, rows: 2, y: 0, x: 2 },
+      { cols: 1, rows: 1, y: 0, x: 4 },
+      { cols: 3, rows: 2, y: 1, x: 4 },
+      { cols: 1, rows: 1, y: 4, x: 5 },
+      { cols: 1, rows: 1, y: 2, x: 1 },
+      { cols: 2, rows: 2, y: 5, x: 5 },
+      { cols: 2, rows: 2, y: 3, x: 2 },
+      { cols: 2, rows: 1, y: 2, x: 2 },
+      { cols: 1, rows: 1, y: 3, x: 4 },
+      { cols: 1, rows: 1, y: 0, x: 6 },
     ];
   }
 
@@ -54,6 +54,6 @@ export class SwapComponent implements OnInit {
   }
 
   addItem() {
-    this.dashboard.push({x: 0, y: 0, cols: 1, rows: 1});
+    this.dashboard.push({ x: 0, y: 0, cols: 1, rows: 1 });
   }
 }

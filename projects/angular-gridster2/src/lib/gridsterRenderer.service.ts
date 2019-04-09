@@ -1,14 +1,12 @@
-import {Injectable, Renderer2} from '@angular/core';
+import { Injectable, Renderer2 } from '@angular/core';
 
-import {GridsterComponentInterface} from './gridster.interface';
-import {GridType} from './gridsterConfig.interface';
-import {GridsterItem} from './gridsterItem.interface';
+import { GridsterComponentInterface } from './gridster.interface';
+import { GridType } from './gridsterConfig.interface';
+import { GridsterItem } from './gridsterItem.interface';
 
 @Injectable()
 export class GridsterRenderer {
-
-  constructor(private gridster: GridsterComponentInterface) {
-  }
+  constructor(private gridster: GridsterComponentInterface) {}
 
   destroy(): void {
     delete this.gridster;
@@ -18,9 +16,9 @@ export class GridsterRenderer {
     if (this.gridster.mobile) {
       this.clearCellPosition(renderer, el);
       if (this.gridster.$options.keepFixedHeightInMobile) {
-        renderer.setStyle(el, 'height', (item.rows * this.gridster.$options.fixedRowHeight) + 'px');
+        renderer.setStyle(el, 'height', item.rows * this.gridster.$options.fixedRowHeight + 'px');
       } else {
-        renderer.setStyle(el, 'height', (this.gridster.curWidth / 2 * item.rows) + 'px');
+        renderer.setStyle(el, 'height', (this.gridster.curWidth / 2) * item.rows + 'px');
       }
       if (this.gridster.$options.keepFixedWidthInMobile) {
         renderer.setStyle(el, 'width', this.gridster.$options.fixedColWidth + 'px');
@@ -34,7 +32,7 @@ export class GridsterRenderer {
       const x = Math.round(this.gridster.curColWidth * item.x);
       const y = Math.round(this.gridster.curRowHeight * item.y);
       const width = this.gridster.curColWidth * item.cols - this.gridster.$options.margin;
-      const height = (this.gridster.curRowHeight * item.rows - this.gridster.$options.margin);
+      const height = this.gridster.curRowHeight * item.rows - this.gridster.$options.margin;
       // set the cell style
       this.setCellPosition(renderer, el, x, y);
       renderer.setStyle(el, 'width', width + 'px');
@@ -86,23 +84,27 @@ export class GridsterRenderer {
       removeClass2 = GridType.ScrollVertical;
       removeClass3 = GridType.Fixed;
     } else if (this.gridster.$options.gridType === GridType.Fixed) {
-      this.gridster.curColWidth = this.gridster.$options.fixedColWidth +
+      this.gridster.curColWidth =
+        this.gridster.$options.fixedColWidth +
         (this.gridster.$options.ignoreMarginInRow ? 0 : this.gridster.$options.margin);
-      this.gridster.curRowHeight = this.gridster.$options.fixedRowHeight +
+      this.gridster.curRowHeight =
+        this.gridster.$options.fixedRowHeight +
         (this.gridster.$options.ignoreMarginInRow ? 0 : this.gridster.$options.margin);
       addClass = GridType.Fixed;
       removeClass1 = GridType.Fit;
       removeClass2 = GridType.ScrollVertical;
       removeClass3 = GridType.ScrollHorizontal;
     } else if (this.gridster.$options.gridType === GridType.VerticalFixed) {
-      this.gridster.curRowHeight = this.gridster.$options.fixedRowHeight +
+      this.gridster.curRowHeight =
+        this.gridster.$options.fixedRowHeight +
         (this.gridster.$options.ignoreMarginInRow ? 0 : this.gridster.$options.margin);
       addClass = GridType.ScrollVertical;
       removeClass1 = GridType.Fit;
       removeClass2 = GridType.ScrollHorizontal;
       removeClass3 = GridType.Fixed;
     } else if (this.gridster.$options.gridType === GridType.HorizontalFixed) {
-      this.gridster.curColWidth = this.gridster.$options.fixedColWidth +
+      this.gridster.curColWidth =
+        this.gridster.$options.fixedColWidth +
         (this.gridster.$options.ignoreMarginInRow ? 0 : this.gridster.$options.margin);
       addClass = GridType.ScrollHorizontal;
       removeClass1 = GridType.Fit;
@@ -124,7 +126,7 @@ export class GridsterRenderer {
     return {
       ...this.getLeftPosition(this.gridster.curColWidth * i),
       width: this.gridster.curColWidth - this.gridster.$options.margin + 'px',
-      height: this.gridster.gridRows.length * this.gridster.curRowHeight - this.gridster.$options.margin + 'px'
+      height: this.gridster.gridRows.length * this.gridster.curRowHeight - this.gridster.$options.margin + 'px',
     };
   }
 
@@ -132,7 +134,7 @@ export class GridsterRenderer {
     return {
       ...this.getTopPosition(this.gridster.curRowHeight * i),
       width: this.gridster.gridColumns.length * this.gridster.curColWidth - this.gridster.$options.margin + 'px',
-      height: this.gridster.curRowHeight - this.gridster.$options.margin + 'px'
+      height: this.gridster.curRowHeight - this.gridster.$options.margin + 'px',
     };
   }
 
@@ -143,7 +145,7 @@ export class GridsterRenderer {
       };
     } else {
       return {
-        left: (this.getLeftMargin() + d) + 'px'
+        left: this.getLeftMargin() + d + 'px',
       };
     }
   }
@@ -155,7 +157,7 @@ export class GridsterRenderer {
       };
     } else {
       return {
-        top: this.getTopMargin() + d + 'px'
+        top: this.getTopMargin() + d + 'px',
       };
     }
   }
