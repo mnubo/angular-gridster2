@@ -1,12 +1,12 @@
-import {Component, ElementRef, Host, OnDestroy, Renderer2, ViewEncapsulation} from '@angular/core';
+import { Component, ElementRef, Host, OnDestroy, Renderer2, ViewEncapsulation } from '@angular/core';
 
-import {GridsterComponent} from './gridster.component';
+import { GridsterComponent } from './gridster.component';
 
 @Component({
   selector: 'gridster-preview',
   template: '',
   styleUrls: ['./gridsterPreview.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class GridsterPreviewComponent implements OnDestroy {
   el: any;

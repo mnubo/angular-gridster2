@@ -9,25 +9,25 @@ import {
   OnInit,
   Renderer2,
   SimpleChanges,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
-import {GridsterConfigService} from './gridsterConfig.constant';
-import {GridsterConfig} from './gridsterConfig.interface';
-import {GridsterUtils} from './gridsterUtils.service';
-import {GridsterEmptyCell} from './gridsterEmptyCell.service';
-import {GridsterCompact} from './gridsterCompact.service';
-import {GridsterConfigS} from './gridsterConfigS.interface';
-import {GridsterComponentInterface} from './gridster.interface';
-import {GridsterItemComponentInterface} from './gridsterItemComponent.interface';
-import {GridsterRenderer} from './gridsterRenderer.service';
-import {GridsterItem} from './gridsterItem.interface';
+import { GridsterConfigService } from './gridsterConfig.constant';
+import { GridsterConfig } from './gridsterConfig.interface';
+import { GridsterUtils } from './gridsterUtils.service';
+import { GridsterEmptyCell } from './gridsterEmptyCell.service';
+import { GridsterCompact } from './gridsterCompact.service';
+import { GridsterConfigS } from './gridsterConfigS.interface';
+import { GridsterComponentInterface } from './gridster.interface';
+import { GridsterItemComponentInterface } from './gridsterItemComponent.interface';
+import { GridsterRenderer } from './gridsterRenderer.service';
+import { GridsterItem } from './gridsterItem.interface';
 
 @Component({
   selector: 'gridster',
   templateUrl: './gridster.html',
   styleUrls: ['./gridster.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class GridsterComponent implements OnInit, OnChanges, OnDestroy, GridsterComponentInterface {
   @Input() options: GridsterConfig;
@@ -69,10 +69,12 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
   }
 
   static checkCollisionTwoItems(item: GridsterItem, item2: GridsterItem): boolean {
-    return item.x < item2.x + item2.cols
-      && item.x + item.cols > item2.x
-      && item.y < item2.y + item2.rows
-      && item.y + item.rows > item2.y;
+    return (
+      item.x < item2.x + item2.cols &&
+      item.x + item.cols > item2.x &&
+      item.y < item2.y + item2.rows &&
+      item.y + item.rows > item2.y
+    );
   }
 
   ngOnInit(): void {
@@ -126,7 +128,8 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
 
   optionsChanged(): void {
     this.setOptions();
-    let widgetsIndex: number = this.grid.length - 1, widget: GridsterItemComponentInterface;
+    let widgetsIndex: number = this.grid.length - 1,
+      widget: GridsterItemComponentInterface;
     for (; widgetsIndex >= 0; widgetsIndex--) {
       widget = this.grid[widgetsIndex];
       widget.updateOptions();
@@ -165,10 +168,14 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     const clientHeight = this.el.clientHeight;
     const offsetHeight = this.el.offsetHeight;
     const scrollHeight = this.el.scrollHeight;
-    const verticalScrollPresent = clientWidth < offsetWidth && scrollHeight > offsetHeight
-      && scrollHeight - offsetHeight < offsetWidth - clientWidth;
-    const horizontalScrollPresent = clientHeight < offsetHeight
-      && scrollWidth > offsetWidth && scrollWidth - offsetWidth < offsetHeight - clientHeight;
+    const verticalScrollPresent =
+      clientWidth < offsetWidth &&
+      scrollHeight > offsetHeight &&
+      scrollHeight - offsetHeight < offsetWidth - clientWidth;
+    const horizontalScrollPresent =
+      clientHeight < offsetHeight &&
+      scrollWidth > offsetWidth &&
+      scrollWidth - offsetWidth < offsetHeight - clientHeight;
     if (verticalScrollPresent) {
       return false;
     }
@@ -179,7 +186,7 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     const el = this.el;
     let width = el.clientWidth;
     let height = el.clientHeight;
-    if (this.$options.setGridSize || this.$options.gridType === 'fit' && !this.mobile) {
+    if (this.$options.setGridSize || (this.$options.gridType === 'fit' && !this.mobile)) {
       width = el.offsetWidth;
       height = el.offsetHeight;
     } else {
@@ -199,9 +206,11 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
       this.mobile = !this.mobile;
       this.renderer.removeClass(this.el, 'mobile');
     }
-    let rows = this.$options.minRows, columns = this.$options.minCols;
+    let rows = this.$options.minRows,
+      columns = this.$options.minCols;
 
-    let widgetsIndex = this.grid.length - 1, widget;
+    let widgetsIndex = this.grid.length - 1,
+      widget;
     for (; widgetsIndex >= 0; widgetsIndex--) {
       widget = this.grid[widgetsIndex];
       if (!widget.notPlaced) {
@@ -271,14 +280,15 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     this.updateGrid();
 
     if (this.$options.setGridSize) {
-      this.renderer.setStyle(this.el, 'width', (this.columns * this.curColWidth + this.$options.margin) + 'px');
-      this.renderer.setStyle(this.el, 'height', (this.rows * this.curRowHeight + this.$options.margin) + 'px');
+      this.renderer.setStyle(this.el, 'width', this.columns * this.curColWidth + this.$options.margin + 'px');
+      this.renderer.setStyle(this.el, 'height', this.rows * this.curRowHeight + this.$options.margin + 'px');
     } else {
       this.renderer.setStyle(this.el, 'width', '');
       this.renderer.setStyle(this.el, 'height', '');
     }
 
-    let widgetsIndex: number = this.grid.length - 1, widget: GridsterItemComponentInterface;
+    let widgetsIndex: number = this.grid.length - 1,
+      widget: GridsterItemComponentInterface;
     for (; widgetsIndex >= 0; widgetsIndex--) {
       widget = this.grid[widgetsIndex];
       widget.setSize();
@@ -319,8 +329,10 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     } else if (this.checkCollision(itemComponent.$item)) {
       if (!this.$options.disableWarnings) {
         itemComponent.notPlaced = true;
-        console.warn('Can\'t be placed in the bounds of the dashboard, trying to auto position!/n' +
-          JSON.stringify(itemComponent.item, ['cols', 'rows', 'x', 'y']));
+        console.warn(
+          "Can't be placed in the bounds of the dashboard, trying to auto position!/n" +
+            JSON.stringify(itemComponent.item, ['cols', 'rows', 'x', 'y'])
+        );
       }
       if (!this.$options.disableAutoPositionOnConflict) {
         this.autoPositionItem(itemComponent);
@@ -372,11 +384,20 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     const area = item.cols * item.rows;
     const inMinArea = minAreaLimit <= area;
     const inMaxArea = maxAreaLimit >= area;
-    return !(noNegativePosition && maxGridCols && maxGridRows && inColsLimits && inRowsLimits && inMinArea && inMaxArea);
+    return !(
+      noNegativePosition &&
+      maxGridCols &&
+      maxGridRows &&
+      inColsLimits &&
+      inRowsLimits &&
+      inMinArea &&
+      inMaxArea
+    );
   }
 
   findItemWithItem(item: GridsterItem): GridsterItemComponentInterface | boolean {
-    let widgetsIndex: number = this.grid.length - 1, widget: GridsterItemComponentInterface;
+    let widgetsIndex: number = this.grid.length - 1,
+      widget: GridsterItemComponentInterface;
     for (; widgetsIndex > -1; widgetsIndex--) {
       widget = this.grid[widgetsIndex];
       if (widget.$item !== item && GridsterComponent.checkCollisionTwoItems(widget.$item, item)) {
@@ -388,7 +409,8 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
 
   findItemsWithItem(item: GridsterItem): Array<GridsterItemComponentInterface> {
     const a: Array<GridsterItemComponentInterface> = [];
-    let widgetsIndex: number = this.grid.length - 1, widget: GridsterItemComponentInterface;
+    let widgetsIndex: number = this.grid.length - 1,
+      widget: GridsterItemComponentInterface;
     for (; widgetsIndex > -1; widgetsIndex--) {
       widget = this.grid[widgetsIndex];
       if (widget.$item !== item && GridsterComponent.checkCollisionTwoItems(widget.$item, item)) {
@@ -407,13 +429,15 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     } else {
       itemComponent.notPlaced = true;
       if (!this.$options.disableWarnings) {
-        console.warn('Can\'t be placed in the bounds of the dashboard!/n' +
-          JSON.stringify(itemComponent.item, ['cols', 'rows', 'x', 'y']));
+        console.warn(
+          "Can't be placed in the bounds of the dashboard!/n" +
+            JSON.stringify(itemComponent.item, ['cols', 'rows', 'x', 'y'])
+        );
       }
     }
   }
 
-  getNextPossiblePosition(newItem: GridsterItem, startingFrom: { y?: number, x?: number } = {}): boolean {
+  getNextPossiblePosition(newItem: GridsterItem, startingFrom: { y?: number; x?: number } = {}): boolean {
     if (newItem.cols === -1) {
       newItem.cols = this.$options.defaultItemCols;
     }
@@ -421,7 +445,8 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
       newItem.rows = this.$options.defaultItemRows;
     }
     this.setGridDimensions();
-    let rowsIndex = startingFrom.y || 0, colsIndex;
+    let rowsIndex = startingFrom.y || 0,
+      colsIndex;
     for (; rowsIndex < this.rows; rowsIndex++) {
       newItem.y = rowsIndex;
       colsIndex = startingFrom.x || 0;
@@ -454,9 +479,9 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
   }
 
   getLastPossiblePosition(item: GridsterItem): GridsterItem {
-    let farthestItem: { y: number, x: number } = {y: 0, x: 0};
+    let farthestItem: { y: number; x: number } = { y: 0, x: 0 };
     farthestItem = this.grid.reduce((prev: any, curr: GridsterItemComponentInterface) => {
-      const currCoords = {y: curr.$item.y + curr.$item.rows - 1, x: curr.$item.x + curr.$item.cols - 1};
+      const currCoords = { y: curr.$item.y + curr.$item.rows - 1, x: curr.$item.x + curr.$item.cols - 1 };
       if (GridsterUtils.compareItems(prev, currCoords) === 1) {
         return currCoords;
       } else {

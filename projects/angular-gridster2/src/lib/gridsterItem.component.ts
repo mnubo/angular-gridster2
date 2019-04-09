@@ -1,17 +1,27 @@
-import {Component, ElementRef, Host, Input, NgZone, OnDestroy, OnInit, Renderer2, ViewEncapsulation} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Host,
+  Input,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  ViewEncapsulation,
+} from '@angular/core';
 
-import {GridsterItem} from './gridsterItem.interface';
-import {GridsterDraggable} from './gridsterDraggable.service';
-import {GridsterResizable} from './gridsterResizable.service';
-import {GridsterUtils} from './gridsterUtils.service';
-import {GridsterItemComponentInterface} from './gridsterItemComponent.interface';
-import {GridsterComponent} from './gridster.component';
+import { GridsterItem } from './gridsterItem.interface';
+import { GridsterDraggable } from './gridsterDraggable.service';
+import { GridsterResizable } from './gridsterResizable.service';
+import { GridsterUtils } from './gridsterUtils.service';
+import { GridsterItemComponentInterface } from './gridsterItemComponent.interface';
+import { GridsterComponent } from './gridster.component';
 
 @Component({
   selector: 'gridster-item',
   templateUrl: './gridsterItem.html',
   styleUrls: ['./gridsterItem.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class GridsterItemComponent implements OnInit, OnDestroy, GridsterItemComponentInterface {
   @Input() item: GridsterItem;
@@ -114,7 +124,12 @@ export class GridsterItemComponent implements OnInit, OnDestroy, GridsterItemCom
   }
 
   checkItemChanges(newValue: GridsterItem, oldValue: GridsterItem): void {
-    if (newValue.rows === oldValue.rows && newValue.cols === oldValue.cols && newValue.x === oldValue.x && newValue.y === oldValue.y) {
+    if (
+      newValue.rows === oldValue.rows &&
+      newValue.cols === oldValue.cols &&
+      newValue.x === oldValue.x &&
+      newValue.y === oldValue.y
+    ) {
       return;
     }
     if (this.gridster.checkCollision(this.$item)) {
@@ -134,13 +149,16 @@ export class GridsterItemComponent implements OnInit, OnDestroy, GridsterItemCom
   }
 
   canBeDragged(): boolean {
-    return !this.gridster.mobile &&
-      (this.$item.dragEnabled === undefined ? this.gridster.$options.draggable.enabled : this.$item.dragEnabled);
+    return (
+      !this.gridster.mobile &&
+      (this.$item.dragEnabled === undefined ? this.gridster.$options.draggable.enabled : this.$item.dragEnabled)
+    );
   }
 
   canBeResized(): boolean {
-    return !this.gridster.mobile &&
-      (this.$item.resizeEnabled === undefined ? this.gridster.$options.resizable.enabled : this.$item.resizeEnabled);
+    return (
+      !this.gridster.mobile &&
+      (this.$item.resizeEnabled === undefined ? this.gridster.$options.resizable.enabled : this.$item.resizeEnabled)
+    );
   }
-
 }

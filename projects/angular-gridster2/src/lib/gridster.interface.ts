@@ -1,11 +1,11 @@
-import {GridsterConfigS} from './gridsterConfigS.interface';
-import {ChangeDetectorRef, NgZone, Renderer2} from '@angular/core';
-import {GridsterEmptyCell} from './gridsterEmptyCell.service';
-import {GridsterCompact} from './gridsterCompact.service';
-import {GridsterConfig} from './gridsterConfig.interface';
-import {GridsterItem} from './gridsterItem.interface';
-import {GridsterItemComponentInterface} from './gridsterItemComponent.interface';
-import {GridsterRenderer} from './gridsterRenderer.service';
+import { GridsterConfigS } from './gridsterConfigS.interface';
+import { ChangeDetectorRef, NgZone, Renderer2 } from '@angular/core';
+import { GridsterEmptyCell } from './gridsterEmptyCell.service';
+import { GridsterCompact } from './gridsterCompact.service';
+import { GridsterConfig } from './gridsterConfig.interface';
+import { GridsterItem } from './gridsterItem.interface';
+import { GridsterItemComponentInterface } from './gridsterItemComponent.interface';
+import { GridsterRenderer } from './gridsterRenderer.service';
 
 export abstract class GridsterComponentInterface {
   $options: GridsterConfigS;
@@ -37,7 +37,7 @@ export abstract class GridsterComponentInterface {
   curColWidth: number;
   curRowHeight: number;
   windowResize: (() => void) | null;
-  setGridDimensions: (() => void);
+  setGridDimensions: () => void;
   dragInProgress: boolean;
   emptyCell: GridsterEmptyCell;
   compact: GridsterCompact;

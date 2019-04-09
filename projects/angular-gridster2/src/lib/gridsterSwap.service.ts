@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {GridsterItemComponentInterface} from './gridsterItemComponent.interface';
-import {GridsterComponentInterface} from './gridster.interface';
+import { GridsterItemComponentInterface } from './gridsterItemComponent.interface';
+import { GridsterComponentInterface } from './gridster.interface';
 
 @Injectable()
 export class GridsterSwap {
@@ -42,7 +42,6 @@ export class GridsterSwap {
         this.gridsterItem.$item.y = this.gridsterItem.item.y || 0;
         this.swapedItem = undefined;
       }
-
     }
   }
 

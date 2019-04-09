@@ -1,15 +1,13 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {GridsterComponentInterface} from './gridster.interface';
-import {GridsterItemComponentInterface} from './gridsterItemComponent.interface';
-import {GridsterItem} from './gridsterItem.interface';
-import {CompactType} from './gridsterConfig.interface';
+import { GridsterComponentInterface } from './gridster.interface';
+import { GridsterItemComponentInterface } from './gridsterItemComponent.interface';
+import { GridsterItem } from './gridsterItem.interface';
+import { CompactType } from './gridsterConfig.interface';
 
 @Injectable()
 export class GridsterCompact {
-
-  constructor(private gridster: GridsterComponentInterface) {
-  }
+  constructor(private gridster: GridsterComponentInterface) {}
 
   destroy(): void {
     delete this.gridster;
@@ -59,7 +57,9 @@ export class GridsterCompact {
   }
 
   checkCompactUp(): void {
-    let widgetMovedUp = false, widget: GridsterItemComponentInterface, moved: boolean;
+    let widgetMovedUp = false,
+      widget: GridsterItemComponentInterface,
+      moved: boolean;
     const l = this.gridster.grid.length;
     for (let i = 0; i < l; i++) {
       widget = this.gridster.grid[i];
@@ -90,7 +90,9 @@ export class GridsterCompact {
   }
 
   checkCompactLeft(): void {
-    let widgetMovedUp = false, widget: GridsterItemComponentInterface, moved: boolean;
+    let widgetMovedUp = false,
+      widget: GridsterItemComponentInterface,
+      moved: boolean;
     const l = this.gridster.grid.length;
     for (let i = 0; i < l; i++) {
       widget = this.gridster.grid[i];
@@ -110,7 +112,9 @@ export class GridsterCompact {
   }
 
   checkCompactRight(): void {
-    let widgetMovedUp = false, widget: GridsterItemComponentInterface, moved: boolean;
+    let widgetMovedUp = false,
+      widget: GridsterItemComponentInterface,
+      moved: boolean;
     const l = this.gridster.grid.length;
     for (let i = 0; i < l; i++) {
       widget = this.gridster.grid[i];

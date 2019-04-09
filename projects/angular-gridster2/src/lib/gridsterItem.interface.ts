@@ -1,4 +1,4 @@
-import {GridsterItemComponentInterface} from './gridsterItemComponent.interface';
+import { GridsterItemComponentInterface } from './gridsterItemComponent.interface';
 
 export interface GridsterItem {
   x: number;
