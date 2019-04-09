@@ -24,6 +24,7 @@ import { GridsterRenderer } from './gridsterRenderer.service';
 import { GridsterItem } from './gridsterItem.interface';
 
 @Component({
+  /* tslint:disable:component-selector */
   selector: 'gridster',
   templateUrl: './gridster.html',
   styleUrls: ['./gridster.css'],
