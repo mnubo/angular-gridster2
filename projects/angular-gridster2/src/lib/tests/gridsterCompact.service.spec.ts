@@ -83,7 +83,7 @@ describe('gridsterCompact service', () => {
 
   it('should check moveUpTillCollision when checkCollision returns true', () => {
     collision = true;
-    const itemComponent = {$item: {y: 0, x: 0}};
+    const itemComponent = {y: 0, x: 0};
     const gridster: any = new MockGridsterComponent();
     gridsterCompact = new GridsterCompact(gridster);
     expect(gridsterCompact.moveUpTillCollision(itemComponent)).toBe(false);
@@ -91,7 +91,7 @@ describe('gridsterCompact service', () => {
 
   it('should check moveLeftTillCollision when checkCollision returns true', () => {
     collision = true;
-    const itemComponent = {$item: {y: 0, x: 0}};
+    const itemComponent = {y: 0, x: 0};
     const gridster: any = new MockGridsterComponent();
     gridsterCompact = new GridsterCompact(gridster);
     expect(gridsterCompact.moveLeftTillCollision(itemComponent)).toBe(false);
