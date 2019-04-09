@@ -8,6 +8,7 @@
     "serve": "ng serve",
     "build": "ng build",
     "build-lib": "ng build angular-gridster2",
+    "test-lib": "ng test angular-gridster2",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
