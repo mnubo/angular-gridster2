@@ -12,6 +12,10 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "noImplicitAny": true,
+    "alwaysStrict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
     "types": [],
     "lib": [
       "dom",
