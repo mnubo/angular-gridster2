@@ -7,6 +7,7 @@ import { GridsterUtils } from './gridsterUtils.service';
 import { GridsterItemComponentInterface } from './gridsterItemComponent.interface';
 import { GridsterComponentInterface } from './gridster.interface';
 import { checkCollision, checkGridCollision } from './gridsterCollision.helper';
+import { pixelsToPositionX, pixelsToPositionY } from './gridsterPosition.helper';
 
 @Injectable()
 export class GridsterDraggable {
@@ -256,8 +257,8 @@ export class GridsterDraggable {
       throw new Error('swap should not be null here');
     }
     this.gridster.movingItem = this.gridsterItem.$item;
-    this.positionX = this.gridster.pixelsToPositionX(this.left, Math.round);
-    this.positionY = this.gridster.pixelsToPositionY(this.top, Math.round);
+    this.positionX = pixelsToPositionX(this.left, Math.round, this.gridster.curColWidth);
+    this.positionY = pixelsToPositionY(this.top, Math.round, this.gridster.curRowHeight);
     this.positionXBackup = this.gridsterItem.$item.x;
     this.positionYBackup = this.gridsterItem.$item.y;
     this.gridsterItem.$item.x = this.positionX;

@@ -59,13 +59,6 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     this.el = el.nativeElement;
     this.$options = JSON.parse(JSON.stringify(GridsterConfigService));
     this.calculateLayoutDebounce = GridsterUtils.debounce(this.calculateLayout.bind(this), 0);
-    this.mobile = false;
-    this.curWidth = 0;
-    this.curHeight = 0;
-    this.grid = [];
-    this.curColWidth = 0;
-    this.curRowHeight = 0;
-    this.dragInProgress = false;
     this.emptyCell = new GridsterEmptyCell(this);
     this.compact = new GridsterCompact(this);
     this.gridRenderer = new GridsterRenderer(this);
@@ -420,29 +413,4 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     return tmpItem;
   }
 
-  pixelsToPositionX(x: number, roundingMethod: Function, noLimit?: boolean): number {
-    const position = roundingMethod(x / this.curColWidth);
-    if (noLimit) {
-      return position;
-    } else {
-      return Math.max(position, 0);
-    }
-  }
-
-  pixelsToPositionY(y: number, roundingMethod: Function, noLimit?: boolean): number {
-    const position = roundingMethod(y / this.curRowHeight);
-    if (noLimit) {
-      return position;
-    } else {
-      return Math.max(position, 0);
-    }
-  }
-
-  positionXToPixels(x: number): number {
-    return x * this.curColWidth;
-  }
-
-  positionYToPixels(y: number): number {
-    return y * this.curRowHeight;
-  }
 }

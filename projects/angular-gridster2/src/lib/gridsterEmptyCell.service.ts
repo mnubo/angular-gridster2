@@ -4,6 +4,7 @@ import { GridsterUtils } from './gridsterUtils.service';
 import { GridsterItem } from './gridsterItem.interface';
 import { GridsterComponentInterface } from './gridster.interface';
 import { checkCollision } from './gridsterCollision.helper';
+import { pixelsToPositionX, pixelsToPositionY } from './gridsterPosition.helper';
 
 @Injectable()
 export class GridsterEmptyCell {
@@ -252,8 +253,8 @@ export class GridsterEmptyCell {
     const x = e.clientX + this.gridster.el.scrollLeft - rect.left - this.gridster.$options.margin;
     const y = e.clientY + this.gridster.el.scrollTop - rect.top - this.gridster.$options.margin;
     const item: GridsterItem = {
-      x: this.gridster.pixelsToPositionX(x, Math.floor, true),
-      y: this.gridster.pixelsToPositionY(y, Math.floor, true),
+      x: pixelsToPositionX(x, Math.floor, this.gridster.curColWidth, true),
+      y: pixelsToPositionY(y, Math.floor, this.gridster.curRowHeight, true),
       cols: this.gridster.$options.defaultItemCols,
       rows: this.gridster.$options.defaultItemRows,
     };
