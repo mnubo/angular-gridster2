@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { GridsterUtils } from './gridsterUtils.service';
 import { GridsterItem } from './gridsterItem.interface';
 import { GridsterComponentInterface } from './gridster.interface';
+import { checkCollision } from './gridsterCollision.helper';
 
 @Injectable()
 export class GridsterEmptyCell {
@@ -270,7 +271,7 @@ export class GridsterEmptyCell {
         item.y = this.gridster.movingItem ? this.gridster.movingItem.y : 0;
       }
     }
-    if (this.gridster.checkCollision(item)) {
+    if (checkCollision(item, this.gridster.grid, this.gridster.$options)) {
       return;
     }
     return item;

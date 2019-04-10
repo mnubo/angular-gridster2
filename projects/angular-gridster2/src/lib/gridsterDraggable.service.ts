@@ -6,6 +6,7 @@ import { GridsterPush } from './gridsterPush.service';
 import { GridsterUtils } from './gridsterUtils.service';
 import { GridsterItemComponentInterface } from './gridsterItemComponent.interface';
 import { GridsterComponentInterface } from './gridster.interface';
+import { checkCollision, checkGridCollision } from './gridsterCollision.helper';
 
 @Injectable()
 export class GridsterDraggable {
@@ -260,11 +261,11 @@ export class GridsterDraggable {
     this.positionXBackup = this.gridsterItem.$item.x;
     this.positionYBackup = this.gridsterItem.$item.y;
     this.gridsterItem.$item.x = this.positionX;
-    if (this.gridster.checkGridCollision(this.gridsterItem.$item)) {
+    if (checkGridCollision(this.gridsterItem.$item, this.gridster.$options)) {
       this.gridsterItem.$item.x = this.positionXBackup;
     }
     this.gridsterItem.$item.y = this.positionY;
-    if (this.gridster.checkGridCollision(this.gridsterItem.$item)) {
+    if (checkGridCollision(this.gridsterItem.$item, this.gridster.$options)) {
       this.gridsterItem.$item.y = this.positionYBackup;
     }
     this.gridster.gridRenderer.setCellPosition(this.gridsterItem.renderer, this.gridsterItem.el, this.left, this.top);
@@ -283,7 +284,7 @@ export class GridsterDraggable {
       }
       this.push.pushItems(direction, this.gridster.$options.disablePushOnDrag);
       this.swap.swapItems();
-      this.collision = this.gridster.checkCollision(this.gridsterItem.$item);
+      this.collision = checkCollision(this.gridsterItem.$item, this.gridster.grid, this.gridster.$options);
       if (this.collision) {
         this.gridsterItem.$item.x = this.positionXBackup;
         this.gridsterItem.$item.y = this.positionYBackup;

@@ -16,6 +16,7 @@ import { GridsterResizable } from './gridsterResizable.service';
 import { GridsterUtils } from './gridsterUtils.service';
 import { GridsterItemComponentInterface } from './gridsterItemComponent.interface';
 import { GridsterComponent } from './gridster.component';
+import { checkCollision } from './gridsterCollision.helper';
 
 @Component({
   selector: 'gridster-item',
@@ -132,7 +133,7 @@ export class GridsterItemComponent implements OnInit, OnDestroy, GridsterItemCom
     ) {
       return;
     }
-    if (this.gridster.checkCollision(this.$item)) {
+    if (checkCollision(this.$item, this.gridster.grid, this.gridster.$options)) {
       this.$item.x = oldValue.x || 0;
       this.$item.y = oldValue.y || 0;
       this.$item.cols = oldValue.cols || 1;

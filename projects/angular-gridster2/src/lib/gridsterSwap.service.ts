@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { GridsterItemComponentInterface } from './gridsterItemComponent.interface';
 import { GridsterComponentInterface } from './gridster.interface';
+import { checkCollision } from './gridsterCollision.helper';
 
 @Injectable()
 export class GridsterSwap {
@@ -33,7 +34,7 @@ export class GridsterSwap {
       const y: number = this.swapedItem.$item.y;
       this.swapedItem.$item.x = this.swapedItem.item.x || 0;
       this.swapedItem.$item.y = this.swapedItem.item.y || 0;
-      if (this.gridster.checkCollision(this.swapedItem.$item)) {
+      if (checkCollision(this.swapedItem.$item, this.gridster.grid, this.gridster.$options)) {
         this.swapedItem.$item.x = x;
         this.swapedItem.$item.y = y;
       } else {
@@ -62,7 +63,7 @@ export class GridsterSwap {
   }
 
   checkSwap(pushedBy: GridsterItemComponentInterface): void {
-    const gridsterItemCollision: any = this.gridster.checkCollision(pushedBy.$item);
+    const gridsterItemCollision: any = checkCollision(pushedBy.$item, this.gridster.grid, this.gridster.$options);
     if (gridsterItemCollision && gridsterItemCollision !== true && gridsterItemCollision.canBeDragged()) {
       const gridsterItemCollide: GridsterItemComponentInterface = gridsterItemCollision;
       const copyCollisionX = gridsterItemCollide.$item.x;
@@ -73,7 +74,10 @@ export class GridsterSwap {
       gridsterItemCollide.$item.y = pushedBy.item.y || 0;
       pushedBy.$item.x = gridsterItemCollide.item.x || 0;
       pushedBy.$item.y = gridsterItemCollide.item.y || 0;
-      if (this.gridster.checkCollision(gridsterItemCollide.$item) || this.gridster.checkCollision(pushedBy.$item)) {
+      if (
+        checkCollision(gridsterItemCollide.$item, this.gridster.grid, this.gridster.$options) ||
+        checkCollision(pushedBy.$item, this.gridster.grid, this.gridster.$options)
+      ) {
         pushedBy.$item.x = copyX;
         pushedBy.$item.y = copyY;
         gridsterItemCollide.$item.x = copyCollisionX;
