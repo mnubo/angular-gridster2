@@ -122,7 +122,7 @@ export class GridsterEmptyCell {
     }
   }
 
-  emptyCellClickCb(e: any): void {
+  private emptyCellClickCb(e: any): void {
     if (this.gridster.movingItem || GridsterUtils.checkContentClassForEmptyCellClickEvent(this.gridster, e)) {
       return;
     }
@@ -136,7 +136,7 @@ export class GridsterEmptyCell {
     this.gridster.cdRef.markForCheck();
   }
 
-  emptyCellContextMenuCb(e: any): void {
+  private emptyCellContextMenuCb(e: any): void {
     if (this.gridster.movingItem || GridsterUtils.checkContentClassForEmptyCellClickEvent(this.gridster, e)) {
       return;
     }
@@ -152,7 +152,7 @@ export class GridsterEmptyCell {
     this.gridster.cdRef.markForCheck();
   }
 
-  emptyCellDragDrop(e: any): void {
+  private emptyCellDragDrop(e: any): void {
     const item = this.getValidItemFromEvent(e);
     if (!item) {
       return;
@@ -163,7 +163,7 @@ export class GridsterEmptyCell {
     this.gridster.cdRef.markForCheck();
   }
 
-  emptyCellDragOver(e: any): void {
+  private emptyCellDragOver(e: any): void {
     e.preventDefault();
     e.stopPropagation();
     const item = this.getValidItemFromEvent(e);
@@ -177,7 +177,7 @@ export class GridsterEmptyCell {
     this.gridster.previewStyle();
   }
 
-  emptyCellMouseDown(e: any): void {
+  private emptyCellMouseDown(e: any): void {
     if (GridsterUtils.checkContentClassForEmptyCellClickEvent(this.gridster, e)) {
       return;
     }
@@ -203,7 +203,7 @@ export class GridsterEmptyCell {
     this.emptyCellUpTouch = this.gridster.renderer.listen('window', 'touchend', this.emptyCellMouseUp.bind(this));
   }
 
-  emptyCellMouseMove(e: any): void {
+  private emptyCellMouseMove(e: any): void {
     e.preventDefault();
     e.stopPropagation();
     const item = this.getValidItemFromEvent(e, this.initialItem);
@@ -215,7 +215,7 @@ export class GridsterEmptyCell {
     this.gridster.previewStyle();
   }
 
-  emptyCellMouseUp(e: any): void {
+  private emptyCellMouseUp(e: any): void {
     if (this.emptyCellMMove) {
       this.emptyCellMMove();
     }
@@ -245,7 +245,7 @@ export class GridsterEmptyCell {
     this.gridster.cdRef.markForCheck();
   }
 
-  getValidItemFromEvent(e: any, oldItem?: GridsterItem | null): GridsterItem | undefined {
+  private getValidItemFromEvent(e: any, oldItem?: GridsterItem | null): GridsterItem | undefined {
     e.preventDefault();
     e.stopPropagation();
     GridsterUtils.checkTouchEvent(e);

@@ -28,7 +28,7 @@ export class GridsterSwap {
     }
   }
 
-  checkSwapBack(): void {
+  private checkSwapBack(): void {
     if (this.swapedItem) {
       const x: number = this.swapedItem.$item.x;
       const y: number = this.swapedItem.$item.y;
@@ -62,7 +62,7 @@ export class GridsterSwap {
     }
   }
 
-  checkSwap(pushedBy: GridsterItemComponentInterface): void {
+  private checkSwap(pushedBy: GridsterItemComponentInterface): void {
     const gridsterItemCollision: any = checkCollision(pushedBy.$item, this.gridster.grid, this.gridster.$options);
     if (gridsterItemCollision && gridsterItemCollision !== true && gridsterItemCollision.canBeDragged()) {
       const gridsterItemCollide: GridsterItemComponentInterface = gridsterItemCollision;

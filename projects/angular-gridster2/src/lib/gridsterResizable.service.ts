@@ -71,7 +71,7 @@ export class GridsterResizable {
     delete this.gridster;
   }
 
-  dragStart(e: any): void {
+  private dragStart(e: any): void {
     switch (e.which) {
       case 1:
         // left mouse button
@@ -210,7 +210,7 @@ export class GridsterResizable {
     }
   }
 
-  dragMove(e: any): void {
+  private dragMove(e: any): void {
     if (!this.directionFunction) {
       throw new Error('directionFunction should be not be null here');
     }
@@ -240,7 +240,7 @@ export class GridsterResizable {
     });
   }
 
-  dragStop(e: any): void {
+  private dragStop(e: any): void {
     e.stopPropagation();
     e.preventDefault();
     cancelScroll();
@@ -284,7 +284,7 @@ export class GridsterResizable {
     });
   }
 
-  cancelResize(): void {
+  private cancelResize(): void {
     if (!this.push || !this.pushResize) {
       throw new Error('push and pushresize must be set here');
     }
@@ -301,7 +301,7 @@ export class GridsterResizable {
     delete this.pushResize;
   }
 
-  makeResize(): void {
+  private makeResize(): void {
     if (!this.push || !this.pushResize) {
       throw new Error('push and pushresize must be set here');
     }
@@ -315,7 +315,7 @@ export class GridsterResizable {
     delete this.pushResize;
   }
 
-  handleN(e: any): void {
+  private handleN(e: any): void {
     if (!this.push || !this.pushResize) {
       throw new Error('push and pushresize must be set here');
     }
@@ -349,7 +349,7 @@ export class GridsterResizable {
     this.setItemHeight(this.height);
   }
 
-  handleW(e: any): void {
+  private handleW(e: any): void {
     if (!this.push || !this.pushResize) {
       throw new Error('push and pushresize must be set here');
     }
@@ -383,7 +383,7 @@ export class GridsterResizable {
     this.setItemWidth(this.width);
   }
 
-  handleS(e: any): void {
+  private handleS(e: any): void {
     if (!this.push || !this.pushResize) {
       throw new Error('push and pushresize must be set here');
     }
@@ -411,7 +411,7 @@ export class GridsterResizable {
     this.setItemHeight(this.height);
   }
 
-  handleE(e: any): void {
+  private handleE(e: any): void {
     if (!this.push || !this.pushResize) {
       throw new Error('push and pushresize must be set here');
     }
@@ -439,22 +439,22 @@ export class GridsterResizable {
     this.setItemWidth(this.width);
   }
 
-  handleNW(e: any): void {
+  private handleNW(e: any): void {
     this.handleN(e);
     this.handleW(e);
   }
 
-  handleNE(e: any): void {
+  private handleNE(e: any): void {
     this.handleN(e);
     this.handleE(e);
   }
 
-  handleSW(e: any): void {
+  private handleSW(e: any): void {
     this.handleS(e);
     this.handleW(e);
   }
 
-  handleSE(e: any): void {
+  private handleSE(e: any): void {
     this.handleS(e);
     this.handleE(e);
   }
@@ -498,19 +498,19 @@ export class GridsterResizable {
     }
   }
 
-  setItemTop(top: number): void {
+  private setItemTop(top: number): void {
     this.gridster.gridRenderer.setCellPosition(this.gridsterItem.renderer, this.gridsterItem.el, this.left, top);
   }
 
-  setItemLeft(left: number): void {
+  private setItemLeft(left: number): void {
     this.gridster.gridRenderer.setCellPosition(this.gridsterItem.renderer, this.gridsterItem.el, left, this.top);
   }
 
-  setItemHeight(height: number): void {
+  private setItemHeight(height: number): void {
     this.gridsterItem.renderer.setStyle(this.gridsterItem.el, 'height', height + 'px');
   }
 
-  setItemWidth(width: number): void {
+  private setItemWidth(width: number): void {
     this.gridsterItem.renderer.setStyle(this.gridsterItem.el, 'width', width + 'px');
   }
 }

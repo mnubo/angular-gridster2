@@ -74,7 +74,7 @@ export class GridsterDraggable {
     }
   }
 
-  dragStart(e: any): void {
+  private dragStart(e: any): void {
     switch (e.which) {
       case 1:
         // left mouse button
@@ -122,7 +122,7 @@ export class GridsterDraggable {
     this.path.push({ x: this.gridsterItem.item.x || 0, y: this.gridsterItem.item.y || 0 });
   }
 
-  dragMove(e: any): void {
+  private dragMove(e: any): void {
     e.stopPropagation();
     e.preventDefault();
     GridsterUtils.checkTouchEvent(e);
@@ -142,7 +142,7 @@ export class GridsterDraggable {
     this.calculateItemPositionFromMousePosition(e);
   }
 
-  calculateItemPositionFromMousePosition(e: any): void {
+  private calculateItemPositionFromMousePosition(e: any): void {
     this.left = e.clientX + this.offsetLeft - this.diffLeft;
     this.top = e.clientY + this.offsetTop - this.diffTop;
     this.calculateItemPosition();
@@ -153,7 +153,7 @@ export class GridsterDraggable {
     });
   }
 
-  dragStop(e: any): void {
+  private dragStop(e: any): void {
     e.stopPropagation();
     e.preventDefault();
 
@@ -219,7 +219,7 @@ export class GridsterDraggable {
     }
   }
 
-  makeDrag() {
+  private makeDrag() {
     if (
       this.gridster.$options.draggable.dropOverItems &&
       this.gridster.options.draggable &&
@@ -249,7 +249,7 @@ export class GridsterDraggable {
     }
   }
 
-  calculateItemPosition() {
+  private calculateItemPosition() {
     if (!this.push) {
       throw new Error('push should not be null here');
     }
@@ -318,7 +318,7 @@ export class GridsterDraggable {
     }
   }
 
-  dragStartDelay(e: any): void {
+  private dragStartDelay(e: any): void {
     if (
       e.target.hasAttribute('class') &&
       e.target

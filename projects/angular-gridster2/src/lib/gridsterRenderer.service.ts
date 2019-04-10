@@ -138,7 +138,7 @@ export class GridsterRenderer {
     };
   }
 
-  getLeftPosition(d: number): Object {
+  private getLeftPosition(d: number): Object {
     if (this.gridster.$options.useTransformPositioning) {
       return {
         transform: 'translateX(' + d + 'px)',
@@ -150,7 +150,7 @@ export class GridsterRenderer {
     }
   }
 
-  getTopPosition(d: number): Object {
+  private getTopPosition(d: number): Object {
     if (this.gridster.$options.useTransformPositioning) {
       return {
         transform: 'translateY(' + d + 'px)',
@@ -181,7 +181,7 @@ export class GridsterRenderer {
     }
   }
 
-  getLeftMargin(): number {
+  private getLeftMargin(): number {
     if (this.gridster.$options.outerMargin) {
       if (this.gridster.$options.outerMarginLeft !== null) {
         return this.gridster.$options.outerMarginLeft;
@@ -193,7 +193,7 @@ export class GridsterRenderer {
     }
   }
 
-  getTopMargin(): number {
+  private getTopMargin(): number {
     if (this.gridster.$options.outerMargin) {
       if (this.gridster.$options.outerMarginTop !== null) {
         return this.gridster.$options.outerMarginTop;

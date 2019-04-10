@@ -57,7 +57,7 @@ export class GridsterCompact {
     }
   }
 
-  checkCompactUp(): void {
+  private checkCompactUp(): void {
     let widgetMovedUp = false,
       widget: GridsterItemComponentInterface,
       moved: boolean;
@@ -79,7 +79,7 @@ export class GridsterCompact {
     }
   }
 
-  moveUpTillCollision(item: GridsterItem): boolean {
+  private moveUpTillCollision(item: GridsterItem): boolean {
     item.y -= 1;
     if (checkCollision(item, this.gridster.grid, this.gridster.$options)) {
       item.y += 1;
@@ -90,7 +90,7 @@ export class GridsterCompact {
     }
   }
 
-  checkCompactLeft(): void {
+  private checkCompactLeft(): void {
     let widgetMovedUp = false,
       widget: GridsterItemComponentInterface,
       moved: boolean;
@@ -112,7 +112,7 @@ export class GridsterCompact {
     }
   }
 
-  checkCompactRight(): void {
+  private checkCompactRight(): void {
     let widgetMovedUp = false,
       widget: GridsterItemComponentInterface,
       moved: boolean;
@@ -134,7 +134,7 @@ export class GridsterCompact {
     }
   }
 
-  moveLeftTillCollision(item: GridsterItem): boolean {
+  private moveLeftTillCollision(item: GridsterItem): boolean {
     item.x -= 1;
     if (checkCollision(item, this.gridster.grid, this.gridster.$options)) {
       item.x += 1;
@@ -145,7 +145,7 @@ export class GridsterCompact {
     }
   }
 
-  moveRightTillCollision(item: GridsterItem) {
+  private moveRightTillCollision(item: GridsterItem) {
     item.x += 1;
     if (checkCollision(item, this.gridster.grid, this.gridster.$options)) {
       item.x -= 1;
