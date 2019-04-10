@@ -21,6 +21,6 @@ describe('checkGridCollision', () => {
     expect(checkGridCollision(item1, { ...GridsterConfigService, maxCols: 3, maxRows: 200 })).toBe(true);
   });
   it('should return false the item is in collision with the grid', () => {
-    expect(checkGridCollision(item1, { ...GridsterConfigService, maxCols: 3, maxRows: 200 })).toBe(true);
+    expect(checkGridCollision(item1, { ...GridsterConfigService, maxCols: 20, maxRows: 200 })).toBe(false);
   });
 });
