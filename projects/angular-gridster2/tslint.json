@@ -12,6 +12,7 @@
       "element",
       "gridster",
       "kebab-case"
-    ]
+    ],
+    "no-inferrable-types": [true, "ignore-properties"]
   }
 }

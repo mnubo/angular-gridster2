@@ -6,19 +6,19 @@ import { GridsterComponentInterface } from './gridster.interface';
 
 @Injectable()
 export class GridsterEmptyCell {
-  initialItem: GridsterItem | null;
-  emptyCellClick: Function | null;
-  emptyCellClickTouch: Function | null;
-  emptyCellContextMenu: Function | null;
-  emptyCellDrop: Function | null;
-  emptyCellDrag: Function | null;
-  emptyCellDragTouch: Function | null;
-  emptyCellMMove: Function;
-  emptyCellMMoveTouch: Function;
-  emptyCellUp: Function;
-  emptyCellUpTouch: Function;
-  emptyCellMove: Function | null;
-  emptyCellExit: Function | null;
+  initialItem: GridsterItem | null = null;
+  emptyCellClick: Function | null = null;
+  emptyCellClickTouch: Function | null = null;
+  emptyCellContextMenu: Function | null = null;
+  emptyCellDrop: Function | null = null;
+  emptyCellDrag: Function | null = null;
+  emptyCellDragTouch: Function | null = null;
+  emptyCellMMove: Function | null = null;
+  emptyCellMMoveTouch: Function | null = null;
+  emptyCellUp: Function | null = null;
+  emptyCellUpTouch: Function | null = null;
+  emptyCellMove: Function | null = null;
+  emptyCellExit: Function | null = null;
 
   constructor(private gridster: GridsterComponentInterface) {}
 
@@ -214,10 +214,18 @@ export class GridsterEmptyCell {
   }
 
   emptyCellMouseUp(e: any): void {
-    this.emptyCellMMove();
-    this.emptyCellMMoveTouch();
-    this.emptyCellUp();
-    this.emptyCellUpTouch();
+    if (this.emptyCellMMove) {
+      this.emptyCellMMove();
+    }
+    if (this.emptyCellMMoveTouch) {
+      this.emptyCellMMoveTouch();
+    }
+    if (this.emptyCellUp) {
+      this.emptyCellUp();
+    }
+    if (this.emptyCellUpTouch) {
+      this.emptyCellUpTouch();
+    }
     const item = this.getValidItemFromEvent(e, this.initialItem);
     if (item) {
       this.gridster.movingItem = item;

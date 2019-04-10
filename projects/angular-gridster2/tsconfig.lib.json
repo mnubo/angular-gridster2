@@ -11,11 +11,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "noImplicitAny": true,
-    "alwaysStrict": true,
-    "strictBindCallApply": true,
-    "strictFunctionTypes": true,
-    "strictNullChecks": true,
+    "strict": true,
     "types": [],
     "lib": [
       "dom",
