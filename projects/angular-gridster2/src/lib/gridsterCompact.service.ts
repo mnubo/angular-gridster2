@@ -4,6 +4,7 @@ import { GridsterComponentInterface } from './gridster.interface';
 import { GridsterItemComponentInterface } from './gridsterItemComponent.interface';
 import { GridsterItem } from './gridsterItem.interface';
 import { CompactType } from './gridsterConfig.interface';
+import { checkCollision } from './gridsterCollision.helper';
 
 @Injectable()
 export class GridsterCompact {
@@ -80,7 +81,7 @@ export class GridsterCompact {
 
   moveUpTillCollision(item: GridsterItem): boolean {
     item.y -= 1;
-    if (this.gridster.checkCollision(item)) {
+    if (checkCollision(item, this.gridster.grid, this.gridster.$options)) {
       item.y += 1;
       return false;
     } else {
@@ -135,7 +136,7 @@ export class GridsterCompact {
 
   moveLeftTillCollision(item: GridsterItem): boolean {
     item.x -= 1;
-    if (this.gridster.checkCollision(item)) {
+    if (checkCollision(item, this.gridster.grid, this.gridster.$options)) {
       item.x += 1;
       return false;
     } else {
@@ -146,7 +147,7 @@ export class GridsterCompact {
 
   moveRightTillCollision(item: GridsterItem) {
     item.x += 1;
-    if (this.gridster.checkCollision(item)) {
+    if (checkCollision(item, this.gridster.grid, this.gridster.$options)) {
       item.x -= 1;
       return false;
     } else {

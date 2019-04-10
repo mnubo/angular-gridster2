@@ -19,6 +19,7 @@
       "es2017",
       "dom"
     ],
+    "types": ["jest"],
     "paths": {
       "angular-gridster2": [
         "dist/angular-gridster2"

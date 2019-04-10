@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { GridsterItemComponentInterface } from './gridsterItemComponent.interface';
 import { GridsterComponentInterface } from './gridster.interface';
+import { checkGridCollision, findItemsWithItem, findItemWithItem } from './gridsterCollision.helper';
 
 @Injectable()
 export class GridsterPush {
@@ -111,13 +112,13 @@ export class GridsterPush {
   }
 
   private push(gridsterItem: GridsterItemComponentInterface, direction: string): boolean {
-    if (this.gridster.checkGridCollision(gridsterItem.$item)) {
+    if (checkGridCollision(gridsterItem.$item, this.gridster.$options)) {
       return false;
     }
     if (direction === '') {
       return false;
     }
-    const a: Array<GridsterItemComponentInterface> = this.gridster.findItemsWithItem(gridsterItem.$item);
+    const a: Array<GridsterItemComponentInterface> = findItemsWithItem(gridsterItem.$item, this.gridster.grid);
     let i = a.length - 1,
       itemCollision: GridsterItemComponentInterface;
     let makePush = true;
@@ -313,7 +314,7 @@ export class GridsterPush {
       y = pushedItem.$item.y;
       pushedItem.$item.x = lastPosition.x;
       pushedItem.$item.y = lastPosition.y;
-      if (!this.gridster.findItemWithItem(pushedItem.$item)) {
+      if (!findItemWithItem(pushedItem.$item, this.gridster.grid)) {
         pushedItem.setSize();
         path.splice(j + 1, path.length - j - 1);
         change = true;
