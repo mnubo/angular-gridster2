@@ -18,35 +18,33 @@ export class GridsterResizable {
   };
   itemBackup: Array<number>;
   resizeEventScrollType: GridsterResizeEventType;
-  directionFunction: Function;
-  dragFunction: (event: any) => void;
-  dragStopFunction: (event: any) => void;
-  resizeEnabled: boolean;
-  mousemove: Function;
-  mouseup: Function;
-  mouseleave: Function;
-  cancelOnBlur: Function;
-  touchmove: Function;
-  touchend: Function;
-  touchcancel: Function;
-  push: GridsterPush;
-  pushResize: GridsterPushResize;
-  minHeight: number;
-  minWidth: number;
-  offsetTop: number;
-  offsetLeft: number;
-  diffTop: number;
-  diffLeft: number;
-  diffRight: number;
-  diffBottom: number;
-  margin: number;
-  top: number;
-  left: number;
-  bottom: number;
-  right: number;
-  width: number;
-  height: number;
-  newPosition: number;
+  directionFunction: Function | null = null;
+  resizeEnabled: boolean = false;
+  mousemove: Function | null = null;
+  mouseup: Function | null = null;
+  mouseleave: Function | null = null;
+  cancelOnBlur: Function | null = null;
+  touchmove: Function | null = null;
+  touchend: Function | null = null;
+  touchcancel: Function | null = null;
+  push: GridsterPush | null = null;
+  pushResize: GridsterPushResize | null = null;
+  minHeight: number = 0;
+  minWidth: number = 0;
+  offsetTop: number = 0;
+  offsetLeft: number = 0;
+  diffTop: number = 0;
+  diffLeft: number = 0;
+  diffRight: number = 0;
+  diffBottom: number = 0;
+  margin: number = 0;
+  top: number = 0;
+  left: number = 0;
+  bottom: number = 0;
+  right: number = 0;
+  width: number = 0;
+  height: number = 0;
+  newPosition: number = 0;
 
   constructor(
     gridsterItem: GridsterItemComponentInterface,
@@ -86,17 +84,17 @@ export class GridsterResizable {
     }
     e.stopPropagation();
     e.preventDefault();
-    this.dragFunction = this.dragMove.bind(this);
-    this.dragStopFunction = this.dragStop.bind(this);
+    const dragFunction = this.dragMove.bind(this);
+    const dragStopFunction = this.dragStop.bind(this);
     this.zone.runOutsideAngular(() => {
-      this.mousemove = this.gridsterItem.renderer.listen('document', 'mousemove', this.dragFunction);
-      this.touchmove = this.gridster.renderer.listen(this.gridster.el, 'touchmove', this.dragFunction);
+      this.mousemove = this.gridsterItem.renderer.listen('document', 'mousemove', dragFunction);
+      this.touchmove = this.gridster.renderer.listen(this.gridster.el, 'touchmove', dragFunction);
     });
-    this.mouseup = this.gridsterItem.renderer.listen('document', 'mouseup', this.dragStopFunction);
-    this.mouseleave = this.gridsterItem.renderer.listen('document', 'mouseleave', this.dragStopFunction);
-    this.cancelOnBlur = this.gridsterItem.renderer.listen('window', 'blur', this.dragStopFunction);
-    this.touchend = this.gridsterItem.renderer.listen('document', 'touchend', this.dragStopFunction);
-    this.touchcancel = this.gridsterItem.renderer.listen('document', 'touchcancel', this.dragStopFunction);
+    this.mouseup = this.gridsterItem.renderer.listen('document', 'mouseup', dragStopFunction);
+    this.mouseleave = this.gridsterItem.renderer.listen('document', 'mouseleave', dragStopFunction);
+    this.cancelOnBlur = this.gridsterItem.renderer.listen('window', 'blur', dragStopFunction);
+    this.touchend = this.gridsterItem.renderer.listen('document', 'touchend', dragStopFunction);
+    this.touchcancel = this.gridsterItem.renderer.listen('document', 'touchcancel', dragStopFunction);
 
     this.gridsterItem.renderer.addClass(this.gridsterItem.el, 'gridster-item-resizing');
     this.lastMouse.clientX = e.clientX;
@@ -207,6 +205,9 @@ export class GridsterResizable {
   }
 
   dragMove(e: any): void {
+    if (!this.directionFunction) {
+      throw new Error('directionFunction should be not be null here');
+    }
     e.stopPropagation();
     e.preventDefault();
     GridsterUtils.checkTouchEvent(e);
@@ -237,13 +238,27 @@ export class GridsterResizable {
     e.stopPropagation();
     e.preventDefault();
     cancelScroll();
-    this.mousemove();
-    this.mouseup();
-    this.mouseleave();
-    this.cancelOnBlur();
-    this.touchmove();
-    this.touchend();
-    this.touchcancel();
+    if (this.mousemove) {
+      this.mousemove();
+    }
+    if (this.mouseup) {
+      this.mouseup();
+    }
+    if (this.mouseleave) {
+      this.mouseleave();
+    }
+    if (this.cancelOnBlur) {
+      this.cancelOnBlur();
+    }
+    if (this.touchmove) {
+      this.touchmove();
+    }
+    if (this.touchend) {
+      this.touchend();
+    }
+    if (this.touchcancel) {
+      this.touchcancel();
+    }
     this.gridster.dragInProgress = false;
     this.gridster.updateGrid();
     if (this.gridster.options.resizable && this.gridster.options.resizable.stop) {
@@ -264,6 +279,9 @@ export class GridsterResizable {
   }
 
   cancelResize(): void {
+    if (!this.push || !this.pushResize) {
+      throw new Error('push and pushresize must be set here');
+    }
     this.gridsterItem.$item.cols = this.gridsterItem.item.cols || 1;
     this.gridsterItem.$item.rows = this.gridsterItem.item.rows || 1;
     this.gridsterItem.$item.x = this.gridsterItem.item.x || 0;
@@ -278,6 +296,9 @@ export class GridsterResizable {
   }
 
   makeResize(): void {
+    if (!this.push || !this.pushResize) {
+      throw new Error('push and pushresize must be set here');
+    }
     this.gridsterItem.setSize();
     this.gridsterItem.checkItemChanges(this.gridsterItem.$item, this.gridsterItem.item);
     this.push.setPushedItems();
@@ -289,6 +310,9 @@ export class GridsterResizable {
   }
 
   handleN(e: any): void {
+    if (!this.push || !this.pushResize) {
+      throw new Error('push and pushresize must be set here');
+    }
     this.top = e.clientY + this.offsetTop - this.diffTop;
     this.height = this.bottom - this.top;
     if (this.minHeight > this.height) {
@@ -320,6 +344,9 @@ export class GridsterResizable {
   }
 
   handleW(e: any): void {
+    if (!this.push || !this.pushResize) {
+      throw new Error('push and pushresize must be set here');
+    }
     this.left = e.clientX + this.offsetLeft - this.diffLeft;
     this.width = this.right - this.left;
     if (this.minWidth > this.width) {
@@ -351,6 +378,9 @@ export class GridsterResizable {
   }
 
   handleS(e: any): void {
+    if (!this.push || !this.pushResize) {
+      throw new Error('push and pushresize must be set here');
+    }
     this.height = e.clientY + this.offsetTop - this.diffBottom - this.top;
     if (this.minHeight > this.height) {
       this.height = this.minHeight;
@@ -376,6 +406,9 @@ export class GridsterResizable {
   }
 
   handleE(e: any): void {
+    if (!this.push || !this.pushResize) {
+      throw new Error('push and pushresize must be set here');
+    }
     this.width = e.clientX + this.offsetLeft - this.diffRight - this.left;
     if (this.minWidth > this.width) {
       this.width = this.minWidth;

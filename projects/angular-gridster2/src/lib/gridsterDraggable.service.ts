@@ -15,34 +15,31 @@ export class GridsterDraggable {
     clientX: number;
     clientY: number;
   };
-  offsetLeft: number;
-  offsetTop: number;
-  margin: number;
-  diffTop: number;
-  diffLeft: number;
-  top: number;
-  left: number;
-  height: number;
-  width: number;
-  positionX: number;
-  positionY: number;
-  positionXBackup: number;
-  positionYBackup: number;
-  enabled: boolean;
-  dragStartFunction: (event: any) => void;
-  dragFunction: (event: any) => void;
-  dragStopFunction: (event: any) => void;
-  mousemove: Function;
-  mouseup: Function;
-  mouseleave: Function;
-  cancelOnBlur: Function;
-  touchmove: Function;
-  touchend: Function;
-  touchcancel: Function;
-  mousedown: Function;
-  touchstart: Function;
-  push: GridsterPush;
-  swap: GridsterSwap;
+  offsetLeft: number = 0;
+  offsetTop: number = 0;
+  margin: number = 0;
+  diffTop: number = 0;
+  diffLeft: number = 0;
+  top: number = 0;
+  left: number = 0;
+  height: number = 0;
+  width: number = 0;
+  positionX: number = 0;
+  positionY: number = 0;
+  positionXBackup: number = 0;
+  positionYBackup: number = 0;
+  enabled: boolean = false;
+  mousemove: Function | null = null;
+  mouseup: Function | null = null;
+  mouseleave: Function | null = null;
+  cancelOnBlur: Function | null = null;
+  touchmove: Function | null = null;
+  touchend: Function | null = null;
+  touchcancel: Function | null = null;
+  mousedown: Function | null = null;
+  touchstart: Function | null = null;
+  push: GridsterPush | null = null;
+  swap: GridsterSwap | null = null;
   path: Array<{ x: number; y: number }>;
   collision: GridsterItemComponentInterface | boolean = false;
 
@@ -69,6 +66,8 @@ export class GridsterDraggable {
     delete this.collision;
     if (this.mousedown) {
       this.mousedown();
+    }
+    if (this.touchstart) {
       this.touchstart();
     }
   }
@@ -90,18 +89,18 @@ export class GridsterDraggable {
 
     e.stopPropagation();
     e.preventDefault();
-    this.dragFunction = this.dragMove.bind(this);
-    this.dragStopFunction = this.dragStop.bind(this);
+    const dragFunction = this.dragMove.bind(this);
+    const dragStopFunction = this.dragStop.bind(this);
 
     this.zone.runOutsideAngular(() => {
-      this.mousemove = this.gridsterItem.renderer.listen('document', 'mousemove', this.dragFunction);
-      this.touchmove = this.gridster.renderer.listen(this.gridster.el, 'touchmove', this.dragFunction);
+      this.mousemove = this.gridsterItem.renderer.listen('document', 'mousemove', dragFunction);
+      this.touchmove = this.gridster.renderer.listen(this.gridster.el, 'touchmove', dragFunction);
     });
-    this.mouseup = this.gridsterItem.renderer.listen('document', 'mouseup', this.dragStopFunction);
-    this.mouseleave = this.gridsterItem.renderer.listen('document', 'mouseleave', this.dragStopFunction);
-    this.cancelOnBlur = this.gridsterItem.renderer.listen('window', 'blur', this.dragStopFunction);
-    this.touchend = this.gridsterItem.renderer.listen('document', 'touchend', this.dragStopFunction);
-    this.touchcancel = this.gridsterItem.renderer.listen('document', 'touchcancel', this.dragStopFunction);
+    this.mouseup = this.gridsterItem.renderer.listen('document', 'mouseup', dragStopFunction);
+    this.mouseleave = this.gridsterItem.renderer.listen('document', 'mouseleave', dragStopFunction);
+    this.cancelOnBlur = this.gridsterItem.renderer.listen('window', 'blur', dragStopFunction);
+    this.touchend = this.gridsterItem.renderer.listen('document', 'touchend', dragStopFunction);
+    this.touchcancel = this.gridsterItem.renderer.listen('document', 'touchcancel', dragStopFunction);
     this.gridsterItem.renderer.addClass(this.gridsterItem.el, 'gridster-item-moving');
     this.margin = this.gridster.$options.margin;
     this.offsetLeft = this.gridster.el.scrollLeft - this.gridster.el.offsetLeft;
@@ -157,13 +156,27 @@ export class GridsterDraggable {
     e.preventDefault();
 
     cancelScroll();
-    this.cancelOnBlur();
-    this.mousemove();
-    this.mouseup();
-    this.mouseleave();
-    this.touchmove();
-    this.touchend();
-    this.touchcancel();
+    if (this.cancelOnBlur) {
+      this.cancelOnBlur();
+    }
+    if (this.mousemove) {
+      this.mousemove();
+    }
+    if (this.mouseup) {
+      this.mouseup();
+    }
+    if (this.mouseleave) {
+      this.mouseleave();
+    }
+    if (this.touchmove) {
+      this.touchmove();
+    }
+    if (this.touchend) {
+      this.touchend();
+    }
+    if (this.touchcancel) {
+      this.touchcancel();
+    }
     this.gridsterItem.renderer.removeClass(this.gridsterItem.el, 'gridster-item-moving');
     this.gridster.dragInProgress = false;
     this.gridster.updateGrid();
@@ -235,6 +248,12 @@ export class GridsterDraggable {
   }
 
   calculateItemPosition() {
+    if (!this.push) {
+      throw new Error('push should not be null here');
+    }
+    if (!this.swap) {
+      throw new Error('swap should not be null here');
+    }
     this.gridster.movingItem = this.gridsterItem.$item;
     this.positionX = this.gridster.pixelsToPositionX(this.left, Math.round);
     this.positionY = this.gridster.pixelsToPositionY(this.top, Math.round);
@@ -283,13 +302,17 @@ export class GridsterDraggable {
     const enableDrag = this.gridsterItem.canBeDragged();
     if (!this.enabled && enableDrag) {
       this.enabled = !this.enabled;
-      this.dragStartFunction = this.dragStartDelay.bind(this);
-      this.mousedown = this.gridsterItem.renderer.listen(this.gridsterItem.el, 'mousedown', this.dragStartFunction);
-      this.touchstart = this.gridsterItem.renderer.listen(this.gridsterItem.el, 'touchstart', this.dragStartFunction);
+      const dragStartFunction = this.dragStartDelay.bind(this);
+      this.mousedown = this.gridsterItem.renderer.listen(this.gridsterItem.el, 'mousedown', dragStartFunction);
+      this.touchstart = this.gridsterItem.renderer.listen(this.gridsterItem.el, 'touchstart', dragStartFunction);
     } else if (this.enabled && !enableDrag) {
       this.enabled = !this.enabled;
-      this.mousedown();
-      this.touchstart();
+      if (this.mousedown) {
+        this.mousedown();
+      }
+      if (this.touchstart) {
+        this.touchstart();
+      }
     }
   }
 

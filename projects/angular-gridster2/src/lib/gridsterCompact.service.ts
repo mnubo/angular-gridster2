@@ -144,7 +144,7 @@ export class GridsterCompact {
     }
   }
 
-  moveRightTillCollision(item) {
+  moveRightTillCollision(item: GridsterItem) {
     item.x += 1;
     if (this.gridster.checkCollision(item)) {
       item.x -= 1;

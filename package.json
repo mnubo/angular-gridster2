@@ -9,12 +9,12 @@
     "build": "ng build",
     "build-lib": "ng build angular-gridster2",
     "test-lib": "ng test angular-gridster2",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
+    "test": "npm run lint && npm run build-lib && ng test angular-gridster2 --watch=false",
+    "lint": "ng lint && npm run pretty-lint",
     "build-demo": "ng build --prod --base-href=/angular-gridster2/",
     "build-npm": "ng build angular-gridster2 --prod",
     "deploy-demo": "ngh --dir=dist/demo --repo=https://GH_TOKEN@github.com/tiberiuzuld/angular-gridster2.git --name='Tiberiu Zuld' --email=tiberiuzuld@gmail.com",
+    "pretty-lint": "git ls-files -- '*.[tj]s' -- 'projects/**/*.html' -- 'src/**/*.html' | xargs prettier -l",
     "pretty": "git ls-files -- '*.[tj]s' -- 'projects/**/*.html' -- 'src/**/*.html' | xargs prettier --write"
   },
   "homepage": "https://tiberiuzuld.github.io/angular-gridster2",
@@ -85,6 +85,7 @@
     "tsickle": "0.34.3",
     "tslib": "1.9.3",
     "tslint": "5.12.1",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "3.2.4",
     "zone.js": "0.8.29"
   }

@@ -24,18 +24,18 @@ import { GridsterComponent } from './gridster.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class GridsterItemComponent implements OnInit, OnDestroy, GridsterItemComponentInterface {
-  @Input() item: GridsterItem;
+  @Input() item!: GridsterItem;
   $item: GridsterItem;
   el: any;
   gridster: GridsterComponent;
-  top: number;
-  left: number;
-  width: number;
-  height: number;
+  top: number = 0;
+  left: number = 0;
+  width: number = 0;
+  height: number = 0;
   drag: GridsterDraggable;
   resize: GridsterResizable;
-  notPlaced: boolean;
-  init: boolean;
+  notPlaced: boolean = false;
+  init: boolean = false;
 
   constructor(el: ElementRef, @Host() gridster: GridsterComponent, public renderer: Renderer2, private zone: NgZone) {
     this.el = el.nativeElement;

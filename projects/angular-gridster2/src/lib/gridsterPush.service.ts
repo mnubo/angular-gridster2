@@ -15,7 +15,7 @@ export class GridsterPush {
   private pushedItemsPath: Array<Array<{ x: number; y: number }>>;
   private gridsterItem: GridsterItemComponentInterface;
   private gridster: GridsterComponentInterface;
-  private pushedItemsOrder: Array<GridsterItemComponentInterface>;
+  private pushedItemsOrder: Array<GridsterItemComponentInterface> = [];
   private tryPattern: {
     fromEast: Array<Function>;
     fromWest: Array<Function>;

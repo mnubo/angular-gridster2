@@ -24,33 +24,44 @@ import { GridsterRenderer } from './gridsterRenderer.service';
 import { GridsterItem } from './gridsterItem.interface';
 
 @Component({
+  /* tslint:disable:component-selector */
   selector: 'gridster',
   templateUrl: './gridster.html',
   styleUrls: ['./gridster.css'],
   encapsulation: ViewEncapsulation.None,
 })
 export class GridsterComponent implements OnInit, OnChanges, OnDestroy, GridsterComponentInterface {
-  @Input() options: GridsterConfig;
+  @Input() options!: GridsterConfig;
   calculateLayoutDebounce: () => void;
-  movingItem: GridsterItem | null;
-  previewStyle: () => void;
+  movingItem: GridsterItem | null = null;
   el: any;
   $options: GridsterConfigS;
-  mobile: boolean;
-  curWidth: number;
-  curHeight: number;
-  grid: Array<GridsterItemComponentInterface>;
-  columns: number;
-  rows: number;
-  curColWidth: number;
-  curRowHeight: number;
+  mobile: boolean = false;
+  curWidth: number = 0;
+  curHeight: number = 0;
+  grid: Array<GridsterItemComponentInterface> = [];
+  columns: number = 0;
+  rows: number = 0;
+  curColWidth: number = 0;
+  curRowHeight: number = 0;
   gridColumns = [];
   gridRows = [];
-  windowResize: (() => void) | null;
-  dragInProgress: boolean;
+  windowResize: (() => void) | null = null;
+  dragInProgress: boolean = false;
   emptyCell: GridsterEmptyCell;
   compact: GridsterCompact;
   gridRenderer: GridsterRenderer;
+
+  static checkCollisionTwoItems(item: GridsterItem, item2: GridsterItem): boolean {
+    return (
+      item.x < item2.x + item2.cols &&
+      item.x + item.cols > item2.x &&
+      item.y < item2.y + item2.rows &&
+      item.y + item.rows > item2.y
+    );
+  }
+
+  previewStyle: () => void = () => {};
 
   constructor(el: ElementRef, public renderer: Renderer2, public cdRef: ChangeDetectorRef, public zone: NgZone) {
     this.el = el.nativeElement;
@@ -66,15 +77,6 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     this.emptyCell = new GridsterEmptyCell(this);
     this.compact = new GridsterCompact(this);
     this.gridRenderer = new GridsterRenderer(this);
-  }
-
-  static checkCollisionTwoItems(item: GridsterItem, item2: GridsterItem): boolean {
-    return (
-      item.x < item2.x + item2.cols &&
-      item.x + item.cols > item2.x &&
-      item.y < item2.y + item2.rows &&
-      item.y + item.rows > item2.y
-    );
   }
 
   ngOnInit(): void {
