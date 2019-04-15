@@ -93,3 +93,6 @@ export class GridsterUtils {
     }
   }
 }
+export function replaceInArray<T>(arr: Array<T>, what: T, by: T): Array<T> {
+  return arr.map((el) => (el === what ? by : el));
+}

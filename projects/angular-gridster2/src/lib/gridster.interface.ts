@@ -32,7 +32,6 @@ export abstract class GridsterComponentInterface {
   abstract setGridDimensions: () => void;
   abstract dragInProgress: boolean;
   abstract emptyCell: GridsterEmptyCell;
-  abstract compact: GridsterCompact;
   abstract zone: NgZone;
   abstract gridRows: Array<number>;
   abstract gridColumns: Array<number>;

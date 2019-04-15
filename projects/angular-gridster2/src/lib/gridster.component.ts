@@ -50,17 +50,21 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
   windowResize: (() => void) | null = null;
   dragInProgress: boolean = false;
   emptyCell: GridsterEmptyCell;
-  compact: GridsterCompact;
   gridRenderer: GridsterRenderer;
 
   previewStyle: () => void = () => {};
 
-  constructor(el: ElementRef, public renderer: Renderer2, public cdRef: ChangeDetectorRef, public zone: NgZone) {
+  constructor(
+    el: ElementRef,
+    public renderer: Renderer2,
+    public cdRef: ChangeDetectorRef,
+    public zone: NgZone,
+    private compact: GridsterCompact
+  ) {
     this.el = el.nativeElement;
     this.$options = JSON.parse(JSON.stringify(GridsterConfigService));
     this.calculateLayoutDebounce = GridsterUtils.debounce(this.calculateLayout.bind(this), 0);
     this.emptyCell = new GridsterEmptyCell(this);
-    this.compact = new GridsterCompact(this);
     this.gridRenderer = new GridsterRenderer(this);
   }
 
@@ -139,7 +143,6 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     }
     this.emptyCell.destroy();
     delete this.emptyCell;
-    this.compact.destroy();
     delete this.compact;
   }
 
@@ -217,7 +220,18 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
 
   calculateLayout(): void {
     if (this.compact) {
-      this.compact.checkCompact();
+      const newGrid = this.compact.compact(this.grid.map((x) => x.$item), this.$options);
+
+      this.grid.forEach((gridWidget, index) => {
+        const newWidget = newGrid[index];
+        if (newWidget.x !== gridWidget.$item.x || newWidget.y !== gridWidget.$item.y) {
+          gridWidget.item.x = newWidget.x;
+          gridWidget.item.y = newWidget.y;
+          gridWidget.$item.x = newWidget.x;
+          gridWidget.$item.y = newWidget.y;
+          gridWidget.itemChanged();
+        }
+      });
     }
 
     this.setGridDimensions();
@@ -412,5 +426,4 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     this.getNextPossiblePosition(tmpItem, farthestItem);
     return tmpItem;
   }
-
 }

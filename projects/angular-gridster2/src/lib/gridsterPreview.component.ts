@@ -1,6 +1,7 @@
 import { Component, ElementRef, Host, OnDestroy, Renderer2, ViewEncapsulation } from '@angular/core';
 
 import { GridsterComponent } from './gridster.component';
+import { GridsterCompact } from './gridsterCompact.service';
 
 @Component({
   selector: 'gridster-preview',
@@ -12,7 +13,12 @@ export class GridsterPreviewComponent implements OnDestroy {
   el: any;
   gridster: GridsterComponent;
 
-  constructor(el: ElementRef, @Host() gridster: GridsterComponent, public renderer: Renderer2) {
+  constructor(
+    el: ElementRef,
+    @Host() gridster: GridsterComponent,
+    private renderer: Renderer2,
+    private compact: GridsterCompact
+  ) {
     this.el = el.nativeElement;
     this.gridster = gridster;
     this.gridster.previewStyle = this.previewStyle.bind(this);
@@ -28,8 +34,16 @@ export class GridsterPreviewComponent implements OnDestroy {
     if (!this.gridster.movingItem) {
       this.renderer.setStyle(this.el, 'display', '');
     } else {
-      if (this.gridster.compact && drag) {
-        this.gridster.compact.checkCompactItem(this.gridster.movingItem);
+      if (drag) {
+        const newItem = this.compact.checkCompactItem(
+          this.gridster.movingItem,
+          this.gridster.grid.map((i) => i.$item),
+          this.gridster.$options
+        );
+        if (newItem.x !== this.gridster.movingItem.x || newItem.y !== this.gridster.movingItem.y) {
+          this.gridster.movingItem.x = newItem.x;
+          this.gridster.movingItem.y = newItem.y;
+        }
       }
       this.renderer.setStyle(this.el, 'display', 'block');
       this.gridster.gridRenderer.updateItem(this.el, this.gridster.movingItem, this.renderer);
