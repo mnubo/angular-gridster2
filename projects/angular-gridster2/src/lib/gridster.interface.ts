@@ -10,10 +10,6 @@ import { GridsterRenderer } from './gridsterRenderer.service';
 export abstract class GridsterComponentInterface {
   abstract $options: GridsterConfigS;
   abstract grid: Array<GridsterItemComponentInterface>;
-  abstract positionXToPixels: (x: number) => number;
-  abstract pixelsToPositionX: (x: number, roundingMethod: (x: number) => number, noLimit?: boolean) => number;
-  abstract positionYToPixels: (y: number) => number;
-  abstract pixelsToPositionY: (y: number, roundingMethod: (x: number) => number, noLimit?: boolean) => number;
   abstract el: any;
   abstract renderer: Renderer2;
   abstract gridRenderer: GridsterRenderer;
@@ -36,7 +32,6 @@ export abstract class GridsterComponentInterface {
   abstract setGridDimensions: () => void;
   abstract dragInProgress: boolean;
   abstract emptyCell: GridsterEmptyCell;
-  abstract compact: GridsterCompact;
   abstract zone: NgZone;
   abstract gridRows: Array<number>;
   abstract gridColumns: Array<number>;

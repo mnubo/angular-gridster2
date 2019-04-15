@@ -7,6 +7,7 @@ import { GridsterUtils } from './gridsterUtils.service';
 import { GridsterItemComponentInterface } from './gridsterItemComponent.interface';
 import { GridsterComponentInterface } from './gridster.interface';
 import { checkCollision, checkGridCollision } from './gridsterCollision.helper';
+import { pixelsToPositionX, pixelsToPositionY } from './gridsterPosition.helper';
 
 @Injectable()
 export class GridsterDraggable {
@@ -73,7 +74,7 @@ export class GridsterDraggable {
     }
   }
 
-  dragStart(e: any): void {
+  private dragStart(e: any): void {
     switch (e.which) {
       case 1:
         // left mouse button
@@ -121,7 +122,7 @@ export class GridsterDraggable {
     this.path.push({ x: this.gridsterItem.item.x || 0, y: this.gridsterItem.item.y || 0 });
   }
 
-  dragMove(e: any): void {
+  private dragMove(e: any): void {
     e.stopPropagation();
     e.preventDefault();
     GridsterUtils.checkTouchEvent(e);
@@ -141,7 +142,7 @@ export class GridsterDraggable {
     this.calculateItemPositionFromMousePosition(e);
   }
 
-  calculateItemPositionFromMousePosition(e: any): void {
+  private calculateItemPositionFromMousePosition(e: any): void {
     this.left = e.clientX + this.offsetLeft - this.diffLeft;
     this.top = e.clientY + this.offsetTop - this.diffTop;
     this.calculateItemPosition();
@@ -152,7 +153,7 @@ export class GridsterDraggable {
     });
   }
 
-  dragStop(e: any): void {
+  private dragStop(e: any): void {
     e.stopPropagation();
     e.preventDefault();
 
@@ -218,7 +219,7 @@ export class GridsterDraggable {
     }
   }
 
-  makeDrag() {
+  private makeDrag() {
     if (
       this.gridster.$options.draggable.dropOverItems &&
       this.gridster.options.draggable &&
@@ -248,7 +249,7 @@ export class GridsterDraggable {
     }
   }
 
-  calculateItemPosition() {
+  private calculateItemPosition() {
     if (!this.push) {
       throw new Error('push should not be null here');
     }
@@ -256,8 +257,8 @@ export class GridsterDraggable {
       throw new Error('swap should not be null here');
     }
     this.gridster.movingItem = this.gridsterItem.$item;
-    this.positionX = this.gridster.pixelsToPositionX(this.left, Math.round);
-    this.positionY = this.gridster.pixelsToPositionY(this.top, Math.round);
+    this.positionX = pixelsToPositionX(this.left, Math.round, this.gridster.curColWidth);
+    this.positionY = pixelsToPositionY(this.top, Math.round, this.gridster.curRowHeight);
     this.positionXBackup = this.gridsterItem.$item.x;
     this.positionYBackup = this.gridsterItem.$item.y;
     this.gridsterItem.$item.x = this.positionX;
@@ -317,7 +318,7 @@ export class GridsterDraggable {
     }
   }
 
-  dragStartDelay(e: any): void {
+  private dragStartDelay(e: any): void {
     if (
       e.target.hasAttribute('class') &&
       e.target

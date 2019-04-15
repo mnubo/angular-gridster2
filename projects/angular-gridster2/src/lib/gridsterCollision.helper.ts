@@ -21,13 +21,29 @@ export function checkCollisionTwoItems(item: GridsterItem, item2: GridsterItem):
     item.y + item.rows > item2.y
   );
 }
-
 export function checkCollision(
   item: GridsterItem,
   grid: Array<GridsterItemComponentInterface>,
   $options: CollisionOptionConfig
 ): GridsterItemComponentInterface | boolean {
-  let collision: GridsterItemComponentInterface | boolean = false;
+  return checkCollisionT(item, grid, $options, (itemComponentInterface) => itemComponentInterface.$item);
+}
+
+export function checkCollisionItem(
+  item: GridsterItem,
+  grid: Array<GridsterItem>,
+  $options: CollisionOptionConfig
+): GridsterItem | boolean {
+  return checkCollisionT(item, grid, $options, (x) => x);
+}
+
+function checkCollisionT<T>(
+  item: GridsterItem,
+  grid: Array<T>,
+  $options: CollisionOptionConfig,
+  toGridsterItem: (t: T) => GridsterItem
+): T | boolean {
+  let collision: T | boolean = false;
   if ($options.itemValidateCallback) {
     collision = !$options.itemValidateCallback(item);
   }
@@ -35,7 +51,7 @@ export function checkCollision(
     collision = true;
   }
   if (!collision) {
-    const c = findItemWithItem(item, grid);
+    const c = findItemWithItemT(item, grid, toGridsterItem);
     if (c) {
       collision = c;
     }
@@ -65,11 +81,15 @@ export function findItemWithItem(
   item: GridsterItem,
   grid: Array<GridsterItemComponentInterface>
 ): GridsterItemComponentInterface | boolean {
+  return findItemWithItemT(item, grid, (itemComponentInterface) => itemComponentInterface.$item);
+}
+
+function findItemWithItemT<T>(item: GridsterItem, grid: Array<T>, toGridsterItem: (t: T) => GridsterItem): T | boolean {
   let widgetsIndex: number = grid.length - 1,
-    widget: GridsterItemComponentInterface;
+    widget: T;
   for (; widgetsIndex > -1; widgetsIndex--) {
     widget = grid[widgetsIndex];
-    if (widget.$item !== item && checkCollisionTwoItems(widget.$item, item)) {
+    if (toGridsterItem(widget) !== item && checkCollisionTwoItems(toGridsterItem(widget), item)) {
       return widget;
     }
   }

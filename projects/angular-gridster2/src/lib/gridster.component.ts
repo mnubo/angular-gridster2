@@ -50,24 +50,21 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
   windowResize: (() => void) | null = null;
   dragInProgress: boolean = false;
   emptyCell: GridsterEmptyCell;
-  compact: GridsterCompact;
   gridRenderer: GridsterRenderer;
 
   previewStyle: () => void = () => {};
 
-  constructor(el: ElementRef, public renderer: Renderer2, public cdRef: ChangeDetectorRef, public zone: NgZone) {
+  constructor(
+    el: ElementRef,
+    public renderer: Renderer2,
+    public cdRef: ChangeDetectorRef,
+    public zone: NgZone,
+    private compact: GridsterCompact
+  ) {
     this.el = el.nativeElement;
     this.$options = JSON.parse(JSON.stringify(GridsterConfigService));
     this.calculateLayoutDebounce = GridsterUtils.debounce(this.calculateLayout.bind(this), 0);
-    this.mobile = false;
-    this.curWidth = 0;
-    this.curHeight = 0;
-    this.grid = [];
-    this.curColWidth = 0;
-    this.curRowHeight = 0;
-    this.dragInProgress = false;
     this.emptyCell = new GridsterEmptyCell(this);
-    this.compact = new GridsterCompact(this);
     this.gridRenderer = new GridsterRenderer(this);
   }
 
@@ -146,7 +143,6 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     }
     this.emptyCell.destroy();
     delete this.emptyCell;
-    this.compact.destroy();
     delete this.compact;
   }
 
@@ -224,7 +220,18 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
 
   calculateLayout(): void {
     if (this.compact) {
-      this.compact.checkCompact();
+      const newGrid = this.compact.compact(this.grid.map((x) => x.$item), this.$options);
+
+      this.grid.forEach((gridWidget, index) => {
+        const newWidget = newGrid[index];
+        if (newWidget.x !== gridWidget.$item.x || newWidget.y !== gridWidget.$item.y) {
+          gridWidget.item.x = newWidget.x;
+          gridWidget.item.y = newWidget.y;
+          gridWidget.$item.x = newWidget.x;
+          gridWidget.$item.y = newWidget.y;
+          gridWidget.itemChanged();
+        }
+      });
     }
 
     this.setGridDimensions();
@@ -418,31 +425,5 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     const tmpItem = Object.assign({}, item);
     this.getNextPossiblePosition(tmpItem, farthestItem);
     return tmpItem;
-  }
-
-  pixelsToPositionX(x: number, roundingMethod: Function, noLimit?: boolean): number {
-    const position = roundingMethod(x / this.curColWidth);
-    if (noLimit) {
-      return position;
-    } else {
-      return Math.max(position, 0);
-    }
-  }
-
-  pixelsToPositionY(y: number, roundingMethod: Function, noLimit?: boolean): number {
-    const position = roundingMethod(y / this.curRowHeight);
-    if (noLimit) {
-      return position;
-    } else {
-      return Math.max(position, 0);
-    }
-  }
-
-  positionXToPixels(x: number): number {
-    return x * this.curColWidth;
-  }
-
-  positionYToPixels(y: number): number {
-    return y * this.curRowHeight;
   }
 }
